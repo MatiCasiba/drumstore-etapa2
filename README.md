@@ -86,3 +86,35 @@ const App = () => {
 
 export default App
 ```
+## App.jsx
+En App.jsx estará toda mi página conectada con los demás archivos para que funcione
+
+#### Importo componentes en el App
+Dentro de App.jsx estaré importando los componentes Navbar.jsx y Footer.jsx:
+```sh
+import { BrowserRouter } from "react-router"
+import Rutas from "./routes/Rutas"
+import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
+
+const App = () => {
+  return (
+    <BrowserRouter>
+
+      <Navbar />
+
+      <Rutas />
+
+      <Footer />
+      
+    </BrowserRouter>
+  )
+}
+
+export default App
+
+# siempre dentro del BrowserRouter, que es el enrutador y lo utlizio para sincronizar la interfaz de usuario con la url del navegador, permite que las url sean más legibles y optimizadas para SEO
+```
+
+## Components
+
