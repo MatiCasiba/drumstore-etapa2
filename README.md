@@ -1,11 +1,23 @@
 * Nombre: Matias Casiba
-* Link github repo:
+* Link github repo: https://github.com/MatiCasiba/drumstore-etapa2
 * Link Netlify:
 
 # Integrador etapa 2
 
 ## Drumstore
 En esta segunda etapa del integrador, seguiré con la página que habia armado en la primera parte (https://github.com/MatiCasiba/drumstore), que se trataba de una tienda con productos para el instrumento de la batería, es ese proyecto trabajé con SASS, HTML y JavaScript. Ahora en esta segunda parte trabajaré más con SASS, REACT y también tendré un archivo JSON para simular un backend.
+
+## SASS
+Como voy a estar trabajando los estilos con sass, tendré que instalarlo:
+```sh
+npm install -D sass-embedded
+```
+Luego lo que tenga escrito con "css" lo modificaré al nombre por "scss", ej: index.css -> index.scss.
+
+* main.jsx, voy a tener que cambiar el nombre de la importación
+```sh
+import './index.scss'
+```
 
 ## Rutas
 Para el manejo de las rutas, eh instalado el react router:
@@ -117,4 +129,5 @@ export default App
 ```
 
 ## Components
+
 
