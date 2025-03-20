@@ -1,7 +1,13 @@
+import { BrowserRouter } from "react-router"
+import Rutas from "./routes/Rutas"
 
 const App = () => {
   return (
-    <div>App</div>
+    <BrowserRouter>
+
+      <Rutas />
+      
+    </BrowserRouter>
   )
 }
 

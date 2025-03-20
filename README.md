@@ -1,4 +1,4 @@
-* Nombre:
+* Nombre: Matias Casiba
 * Link github repo:
 * Link Netlify:
 
@@ -66,4 +66,23 @@ import Nosotros from '../pages/Nosotros'
 import Contacto from '../pages/Contacto'
 import Carrito from '../pages/Carrito'
 import NoEncontrado from '../pages/NoEncontrado'
+```
+
+#### Importo BrowserRouter y Rutas
+El BrowserRouter y Rutas.jsx, los voy a importar en App.jsx:
+```sh
+import { BrowserRouter } from "react-router"
+import Rutas from "./routes/Rutas"
+
+const App = () => {
+  return (
+    <BrowserRouter>
+
+      <Rutas />
+      
+    </BrowserRouter>
+  )
+}
+
+export default App
 ```
