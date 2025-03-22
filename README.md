@@ -102,18 +102,18 @@ export default App
 En App.jsx estará toda mi página conectada con los demás archivos para que funcione
 
 #### Importo componentes en el App
-Dentro de App.jsx estaré importando los componentes Navbar.jsx y Footer.jsx:
+Dentro de App.jsx estaré importando los componentes Header.jsx y Footer.jsx:
 ```sh
 import { BrowserRouter } from "react-router"
 import Rutas from "./routes/Rutas"
-import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
+import Header from "./components/Header"
 
 const App = () => {
   return (
     <BrowserRouter>
 
-      <Navbar />
+      <Header />
 
       <Rutas />
 
@@ -140,50 +140,7 @@ Los contenedores que tengo con clases que uso para sass, osea todo el inicio de 
 const Inicio = () => {
   return (
     <>
-      <header className="main-header">
-        <input type="checkbox" id="menu" />
-      
-        <nav className="nav-bar">
-          <ul className="nav-bar__nav-list">
-            <li className="nav-bar__nav-item">
-              <a href="" className="nav-bar__nav-link">Inicio</a>
-            </li>
-            <li className="nav-bar__nav-item">
-              <a href="" className="nav-bar__nav-link">Alta</a>
-            </li>
-            <li className="nav-bar__nav-item">
-              <a href="src/pages/nosotros/nosotros.html" target="_self" className="nav-bar__nav-link">Nosotros</a>
-            </li>
-            <li className="nav-bar__nav-item">
-              <a href="src/pages/contacto/contacto.html" target="_self" className="nav-bar__nav-link">Contacto</a>
-            </li> 
-          </ul> 
-        </nav>
-
-        <div className="search-bar">
-          <div className="search-bar__logo-container">
-            <img className="search-bar__logo-img" src="/logo/ds-logo-sf.png" alt="logo ds" />
-          </div>
-          <button className="theme-toggle">⚫</button>
-          <form action="#" className="search-bar__form-container">
-            <label htmlFor="busqueda" className="search-bar__form-label">
-              <img className="search-bar__logo-search" src="/logo/logo-search.png" alt="logo del bucador" />
-            </label>
-            <input type="search" id="busqueda" className="search-bar__form-search" />
-            <button type="submit" className="search-bar__form-submit">Buscar</button>
-          </form> 
-          <div className="search-bar__carrito-container">
-            <img className="search-bar__cart-logo" src="/logo/cart-logo.png" alt="logo de carro" />
-          </div>
-          <div className="menu-toogle">
-            <label htmlFor="menu" className="menu-toogle__label">
-              <span className="menu-toogle__top-bread"></span>
-              <span className="menu-toogle__meat"></span>
-              <span className="menu-toogle__bottom-bread"></span>
-            </label>
-          </div> 
-        </div> 
-      </header>
+      # el header estará en un componente aparte y se encontrará en App.jsx
 
       <main>
         <div className="slider"></div>
@@ -252,3 +209,93 @@ const Inicio = () => {
 export default Inicio
 ```
 * Nota: antes tenia class y en los label tenía for, a esto los eh remplazado por los nombres className y htmlFor.
+
+### Header.jsx
+En este componente se encontrará la cabecera de la página, que contendrá 2 componentes dentro, el Navbar.jsx y SearchBar.jsx, eh separado estos códigos html que tenía todo junto en cabecera, si bien lo sigue teniendo, pero se encuentran dentro de cada componente, para ser más ordeado:
+
+```sh
+import Navbar from "./Navbar"
+import SearchBar from "./SearchBar"
+
+const Header = () => {
+    return (
+        <>
+            <header className="main-header">
+                <input type="checkbox" id="menu" />
+
+                <Navbar />
+
+                <SearchBar />
+                
+            </header>
+        </>
+    )
+}
+
+export default Header
+```
+
+#### Navbar.jsx
+Contendrá los links de las navegaciones
+```sh
+const Navbar = () => {
+  return (
+    <>
+      <nav className="nav-bar">
+        <ul className="nav-bar__nav-list">
+          <li className="nav-bar__nav-item">
+            <a href="" className="nav-bar__nav-link">Inicio</a>
+          </li>
+          <li className="nav-bar__nav-item">
+            <a href="" className="nav-bar__nav-link">Alta</a>
+          </li>
+          <li className="nav-bar__nav-item">
+            <a href="src/pages/nosotros/nosotros.html" target="_self" className="nav-bar__nav-link">Nosotros</a>
+          </li>
+          <li className="nav-bar__nav-item">
+            <a href="src/pages/contacto/contacto.html" target="_self" className="nav-bar__nav-link">Contacto</a>
+          </li>
+        </ul>
+      </nav>
+    </>
+  )
+}
+
+export default Navbar
+```
+
+#### SearchBar.jsx
+Contendrá la barra buscadora
+```sh
+const SearchBar = () => {
+    return (
+        <>
+            <div className="search-bar">
+                <div className="search-bar__logo-container">
+                    <img className="search-bar__logo-img" src="/logo/ds-logo-sf.png" alt="logo ds" />
+                </div>
+                <button className="theme-toggle">⚫</button>
+                <form action="#" className="search-bar__form-container">
+                    <label htmlFor="busqueda" className="search-bar__form-label">
+                        <img className="search-bar__logo-search" src="/logo/logo-search.png" alt="logo del bucador" />
+                    </label>
+                    <input type="search" id="busqueda" className="search-bar__form-search" />
+                    <button type="submit" className="search-bar__form-submit">Buscar</button>
+                </form>
+                <div className="search-bar__carrito-container">
+                    <img className="search-bar__cart-logo" src="/logo/cart-logo.png" alt="logo de carro" />
+                </div>
+                <div className="menu-toogle">
+                    <label htmlFor="menu" className="menu-toogle__label">
+                        <span className="menu-toogle__top-bread"></span>
+                        <span className="menu-toogle__meat"></span>
+                        <span className="menu-toogle__bottom-bread"></span>
+                    </label>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default SearchBar
+```
