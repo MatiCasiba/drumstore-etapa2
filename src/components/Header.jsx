@@ -1,3 +1,4 @@
+import './Header.scss'
 import Navbar from "./Navbar"
 import SearchBar from "./SearchBar"
 

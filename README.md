@@ -194,6 +194,7 @@ export default Card
 En este componente se encontrará la cabecera de la página, que contendrá 2 componentes dentro, el Navbar.jsx y SearchBar.jsx, eh separado estos códigos html que tenía todo junto en cabecera, si bien lo sigue teniendo, pero se encuentran dentro de cada componente, para ser más ordeado:
 
 ```sh
+import './Header.scss'
 import Navbar from "./Navbar"
 import SearchBar from "./SearchBar"
 
@@ -279,6 +280,371 @@ const SearchBar = () => {
 
 export default SearchBar
 ```
+#### Estilos del Header.scss
+Todo lo que contiene header, estrá estilizado mediante las clases, todo los estilisos de mi cabecera se encuentra en el archivo Header.scss:
+```sh
+@import "../index.scss";
+
+# HEADER
+
+.main-header{
+    display: flex;
+    flex-direction: column-reverse;
+    background: $color-3;
+
+    @media screen and (min-width: 992px){
+        &{
+            flex-direction: column;
+        }
+    }
+
+    
+    @media screen and (min-width: 1200px){
+        & {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+@keyframes dropdown{
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#menu {
+    display: none;
+
+    # hacer funcionar el checkbox -> hacer funcionar el menu toggle
+    &:checked + .nav-bar {
+        display: block;
+        animation: dropdown 0.5s ease-in-out;
+    }
+
+    &:checked ~ .search-bar .menu-toogle {
+        .menu-toogle__top-bread {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toogle__meat {
+            opacity: 0;
+        }
+
+        .menu-toogle__bottom-bread {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+    }
+}
+
+# NAVBAR */
+
+.nav-bar{
+    background: $color-3;
+    display: none;
+
+    &__nav-list{ # .nav-bar__navlist
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        list-style-type: none;
+        background: $color-3;
+        font-size: 1rem;
+
+        @media screen and (min-width: 992px){
+            &{
+                flex-direction: row;
+                justify-content: center;
+                
+            }
+        }
+
+    }
+
+    &__nav-item{
+        text-align: center;
+    }
+
+    &__nav-link{
+        display: block;
+        background-color: $color-3;
+        padding: 1rem 2rem; /* 16px y 32px */
+        color: white;
+        text-decoration: none;
+        position: relative;
+
+        &:active {
+            color: black;
+        }
+
+        @media screen and (min-width: 992px) {
+            &{
+                font-size: 1rem;
+                font-weight: 600;
+                letter-spacing: 2px;
+            }
+            &:active{
+                color: $color-1;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            &{
+                background: $color-3;
+                color: $color-4;
+                font-size: .9rem;
+            }
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 2px;
+                border-radius: 100%;
+                margin-bottom: 10px;
+                background-color: $color-4;
+                transition: width 0.3s ease-in-out;
+            }
+
+            &:hover::after {
+                width: 100%;
+            }
+        }
+    }
+
+    @media screen and (min-width: 992px){
+        &{
+            display: block;
+        }
+    }
+
+    @media screen and (min-width: 1200px){
+        & {
+            order: 2; # aseguro que nva-bar esté debajo del serach-bar
+            width: 100%;
+            background-color: $color-4;
+        }
+    }
+}
+
+# SEARCH BAR
+
+.search-bar{
+    display: flex;
+    background: $color-3;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    height: 3.7rem;
+    margin: 0 auto;
+    
+    &__logo-container{
+        width: 5.75rem;
+        height: 3.5rem;
+
+        @media screen and (min-width: 992px){
+            &{
+                width: 5rem;
+                height: 4rem;
+                margin-left: 10px;
+            }
+        }
+    }
+
+    &__logo-img{
+        opacity: 0;
+
+        @media screen and (min-width: 576px) {
+            &{
+                opacity: 1;
+                width: 60px;
+                object-fit: contain;
+                
+            }
+        }
+
+        @media screen and (min-width:1200px) {
+            &{
+               width: 100px;
+               position: relative; 
+            }
+        }
+    }
+
+    &__form-container{
+        
+        padding: 1rem;
+        display: flex;
+        flex-basis: 1000px;
+        justify-content: center;
+
+        @media screen and (min-width: 992px){
+            &{
+                max-width: 100%;
+            }
+        }
+    }
+
+    &__form-label{
+        background-color: none;
+        
+    }
+    &__logo-search{
+        opacity: 0;
+        min-width: 20px;
+        min-height: 20px;
+        max-width: 30px; 
+        max-height: 30px;
+        object-fit: contain;
+        flex-shrink: 0;    
+
+        @media screen and (min-width: 576px) {
+            opacity: 1;
+        }
+        
+        
+        @media screen and (min-width: 992px){
+            &{
+                max-height: 35px;
+            }
+        }
+        
+    }
+
+    &__form-search{
+        background-color: $color-4;
+        margin-left:10px;
+        padding-left: 10px;
+        border-radius: 10px;
+        width: 100px;
+
+        @media screen and (min-width: 576px) {
+            &{
+                width: 180px;
+            }
+        }
+        @media screen and (min-width: 768px) {
+            & {
+                width: 70%;
+            }
+        }
+
+        @media screen and (min-width: 992px){
+            &{
+                width: 30%;
+                margin-left: 20px;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            & {
+                width: 50%;
+            }
+        }
+    }
+
+    &__form-submit{
+        background-color: $color-4;
+        margin-left: 2px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        padding: 5px;
+
+        @media screen and (min-width: 1200px) {
+            &:hover{
+                background-color: $color-3;
+            }
+        }
+    }
+
+    &__carrito-container{
+        flex: 0 0 3rem;
+        margin: auto;
+
+        @media screen and (min-width: 992px){
+            &{
+                flex: 0 0 5rem;
+                margin: auto;
+                background: none;
+            }
+        }
+    }
+
+    &__cart-logo{
+        min-width: 20px;
+        min-height: 20px;
+        max-width: 30px; 
+        max-height: 30px;
+        object-fit: contain;
+        flex-shrink: 0;
+        
+        @media screen and (min-width: 768px){
+            max-height: 35px;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        & {
+            order: 1;
+            width: 100%;
+        }
+    }
+}
+
+# MENU TOOGLE 
+
+.menu-toogle{
+    display: block;
+    flex: 0 0 3rem;
+    position: relative;
+    cursor: pointer;
+    height: 50px;
+
+    &__label {
+        display: block;
+        height: 100%;
+    }
+
+    &__top-bread,
+    &__meat,
+    &__bottom-bread{
+        display: block;
+        background-color: #333;
+        height: .2rem;
+        position: absolute;
+        left: .5rem;
+        right: .5rem;
+        transition: all 0.3s ease-in-out;
+    }
+
+    &__top-bread{
+        top: .8rem;
+    }
+
+    &__meat{
+        top: 50%;
+        margin-top: -.1rem;
+    }
+
+    &__bottom-bread{
+        bottom: .8rem;
+    }
+
+    @media screen and (min-width: 992px) {
+        & { # menu-toogle
+            display: none;
+        }
+    }
+
+}
+``` 
 
 ### Footer.jsx
 Tendré mi pie de página en un componente que se llama Footer.jsx, este pie lo voy a estar usando en App.jsx
