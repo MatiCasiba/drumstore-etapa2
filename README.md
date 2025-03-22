@@ -129,41 +129,41 @@ export default App
 ```
 
 ## Components
+Dentro de la carpeta componentes tendré los componentes Card.jsx Footer.jsx Header.jsx Navbar.jsx Searchbar.jsx y estilos de la página. 
 
-## Pages
-Dentro de la carpeta page estará mis componentes Alta.jsx, Inicio.jsx, Carrito.jsx, Contacto.jsx, NoEncontrado.jsx y Nosotros.jsx.
-
-### Inicio.jsx
-Los contenedores que tengo con clases que uso para sass, osea todo el inicio de la página que contiene los productos, me los traigo a Inicio.jsx:
-
+### Card.jsx
+En Card.jsx estará el código de las tarjetas, osea armaré toda la tarjeta dentro de este componente:
 ```sh
-const Inicio = () => {
-  return (
-    <>
-      # el header estará en un componente aparte y se encontrará en App.jsx
-
-      <main>
-        <div className="slider"></div>
-        <section className="section-cards">
-          <header className="section-cards__header">
-            <h1>Nuestros productos:</h1>
-            <p>Mapex - DW - Zildjian - Evans</p>
-          </header>
-        </section> 
-
-        <section className="cards-container" id="container-productos">
-
-        </section>
-      </main>
-
-      # el footer estará en un componete aparte y también se encuentra en App.jsx
-    </>
-  )
+const Card = () => {
+    return (
+        <>
+            <div className="card">
+                <article className="card__article">
+                    <div className="card__image-container">
+                        <img className="card__image" src="${prod.foto}" alt="texto foto" />
+                    </div>
+                    <div className="card__content">
+                        <h2 className="card__heading">Nombre</h2>
+                        <div className="card__description">
+                            <p><b>precio</b></p>
+                            <p>$descripción</p>
+                        </div>
+                        <a className="card__boton" href="#">COMPRAR</a>
+                    </div>
+                </article>
+            </div>
+        </>
+    )
 }
 
-export default Inicio
+export default Card
 ```
-* Nota: antes tenia class y en los label tenía for, a esto los eh remplazado por los nombres className y htmlFor.
+* Esta tarjeta me la llevaré en Inicio.jsx, lo colocaré en el section de tarjetas:
+```sh
+<section className="cards-container" id="container-productos">
+  <Card />
+</section>
+```
 
 ### Header.jsx
 En este componente se encontrará la cabecera de la página, que contendrá 2 componentes dentro, el Navbar.jsx y SearchBar.jsx, eh separado estos códigos html que tenía todo junto en cabecera, si bien lo sigue teniendo, pero se encuentran dentro de cada componente, para ser más ordeado:
@@ -315,3 +315,38 @@ const Footer = () => {
 
 export default Footer
 ```
+
+## Pages
+Dentro de la carpeta page estará mis componentes Alta.jsx, Inicio.jsx, Carrito.jsx, Contacto.jsx, NoEncontrado.jsx y Nosotros.jsx.
+
+### Inicio.jsx
+Los contenedores que tengo con clases que uso para sass, osea todo el inicio de la página que contiene los productos, me los traigo a Inicio.jsx:
+
+```sh
+const Inicio = () => {
+  return (
+    <>
+      # el header estará en un componente aparte y se encontrará en App.jsx
+
+      <main>
+        <div className="slider"></div>
+        <section className="section-cards">
+          <header className="section-cards__header">
+            <h1>Nuestros productos:</h1>
+            <p>Mapex - DW - Zildjian - Evans</p>
+          </header>
+        </section> 
+
+        <section className="cards-container" id="container-productos">
+
+        </section>
+      </main>
+
+      # el footer estará en un componete aparte y también se encuentra en App.jsx
+    </>
+  )
+}
+
+export default Inicio
+```
+* Nota: antes tenia class y en los label tenía for, a esto los eh remplazado por los nombres className y htmlFor.

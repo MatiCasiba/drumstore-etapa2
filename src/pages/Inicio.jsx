@@ -1,3 +1,4 @@
+import Card from "../components/Card"
 
 const Inicio = () => {
   return (
@@ -13,7 +14,7 @@ const Inicio = () => {
         </section> 
 
         <section className="cards-container" id="container-productos">
-
+          <Card />
         </section>
       </main>
 
