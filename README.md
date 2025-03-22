@@ -281,7 +281,7 @@ const SearchBar = () => {
 export default SearchBar
 ```
 #### Estilos del Header.scss
-Todo lo que contiene header, estrá estilizado mediante las clases, todo los estilisos de mi cabecera se encuentra en el archivo Header.scss:
+Todo lo que contiene header, estrá estilizado mediante las clases, todo los estilisos de mi cabecera se encuentra en los archivos Header.scss, Navbar.scss y SearchBar.scss:
 ```sh
 @import "../index.scss";
 
@@ -341,14 +341,19 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
         }
     }
 }
+``` 
 
-# NAVBAR */
+* Navbar.scss:
+```sh
+@import "../index.scss";
+
+/* NAVBAR */
 
 .nav-bar{
     background: $color-3;
     display: none;
 
-    &__nav-list{ # .nav-bar__navlist
+    &__nav-list{ /* .nav-bar__navlist */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -363,7 +368,6 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
                 
             }
         }
-
     }
 
     &__nav-item{
@@ -426,14 +430,18 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
 
     @media screen and (min-width: 1200px){
         & {
-            order: 2; # aseguro que nva-bar esté debajo del serach-bar
+            order: 2;
             width: 100%;
             background-color: $color-4;
         }
     }
 }
+```
+* SearchBar.scss
+```sh
+@import "../index.scss";
 
-# SEARCH BAR
+/* SEARCH BAR */
 
 .search-bar{
     display: flex;
@@ -598,7 +606,7 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     }
 }
 
-# MENU TOOGLE 
+/* MENU TOOGLE */
 
 .menu-toogle{
     display: block;
@@ -638,13 +646,13 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     }
 
     @media screen and (min-width: 992px) {
-        & { # menu-toogle
+        & { /* menu-toogle */
             display: none;
         }
     }
 
 }
-``` 
+```
 
 ### Footer.jsx
 Tendré mi pie de página en un componente que se llama Footer.jsx, este pie lo voy a estar usando en App.jsx
