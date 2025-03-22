@@ -19,6 +19,31 @@ Luego lo que tenga escrito con "css" lo modificaré al nombre por "scss", ej: in
 import './index.scss'
 ```
 
+### Resets, tipografía y variables
+En el archivo index.scss, coloqué resets, la tipografía y las variables que eh creado donde puse los colores con los que estuve trabajando en la página:
+```sh
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+# reset
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+# tipografia 
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 100%; // default navegadores 16px
+}
+
+# variables 
+$color-1: #403d39;
+$color-2: #252422;
+$color-3: #eb5e28;
+$color-4: #F6F6F6;
+```
+
 ## Rutas
 Para el manejo de las rutas, eh instalado el react router:
 ```sh
