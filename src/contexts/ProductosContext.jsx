@@ -10,20 +10,18 @@ const ProductosContext = createContext()
 const ProductosProvider = ({children}) => {
 
     const url = import.meta.env.VITE_BACKEND_PRODUCTOS
-    const [productos, setProductos] = useState(null) // creo el estado de productos
+    const [productos, setProductos] = useState(null)
 
     
     useEffect(() => {
-      getAllProductos() // cuando el componente se monte, voy a realizar el getAllProductos
+      getAllProductos()
     }, [])
     
-
-    // pido los productos
     const getAllProductos = async () => {
         try {
             const prods = await peticionesHttp(url, {})
 
-            setProductos(prods) // para llenar productos con el array de objetos que viene del json
+            setProductos(prods)
 
         } catch (error) {
             console.error('[getAllProductos]', error)
@@ -38,5 +36,5 @@ const ProductosProvider = ({children}) => {
 }
 
 //! 3. EXPORTO EL CONTEXT Y PROVIDER
-export {ProductosProvider} // como un objeto lo exporto
+export {ProductosProvider}
 export default ProductosContext

@@ -1123,6 +1123,67 @@ footer{
 }
 ```
 
+## menuItems.js
+eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
+```sh
+const menuItems = [
+    {id: 1, nombre: 'Inicio', ruta: '/'},
+    {id: 2, nombre: 'Alta', ruta: '/alta'},
+    {id: 3, nombre: 'Nosotros', ruta: '/nosotros'},
+    {id: 4, nombre: 'Contacto', ruta: '/contacto'}
+]
+
+export default menuItems
+```
+### Uso del menuItems.js
+obviamente le voy a dar utilidad, lo estaré usando Navbar.jsx, dentro de este componente. se encontrarpa otro componenten que se llama NavItems.jsx (también está dentrod de la carpeta components):
+* Navbar.jsx
+```sh
+import menuItems from '../constants/menuItems' # traigo el menú itemns
+import './Navbar.scss'
+import NavItem from './NavItem'
+
+const Navbar = () => {
+
+  return (
+    <>
+      <nav className="nav-bar">
+        <ul className="nav-bar__nav-list">
+        # antes estaba todo con elementos li, en lugar de eso, llamno al NavItemen, que contendrá los items del menú
+          {
+            menuItems.map((item) => (
+              <NavItem item={item} key={item.id} />
+            ))
+          }        
+        </ul>
+      </nav>
+    </>
+  )
+}
+
+export default Navbar
+```
+
+* NavItem.jsx:
+```sh
+import { NavLink } from "react-router"
+
+const NavItem = ({item}) => {
+    return (
+        <>
+            <li className="nav-bar__nav-item">
+                <NavLink to={item.ruta} className="nav-bar__nav-link">
+                    {item.nombre}
+                </NavLink>
+            </li>
+        </>
+    )
+}
+
+export default NavItem
+```
+Entonces mediante, habrá acceso inicio, alta, nosotros y contacto. Otra cosa a destacar es el uso que doy de NavLink, al elemento <a>, lo eh reemplazado por el NavLink. ¿Que hace esto? optimiza mejor la navegación de la página, con el elemento a, en mi página se veia como una carga cuando accedía a algunos de los items, ahora con esto es más instantáneo por así decirlo, no hay tal efecto de carga/refresco.
+
 ## Pages
 Dentro de la carpeta page estará mis componentes Alta.jsx, Inicio.jsx, Carrito.jsx, Contacto.jsx, NoEncontrado.jsx y Nosotros.jsx.
 
