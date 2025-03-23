@@ -1177,3 +1177,102 @@ Eh agregado un archivo Inicio.sass que estará esstilizando al componente Inicio
     gap: 1rem;
 }
 ```
+
+## Data
+Eh creado una carpeta llamada data, dentro de esta carpeta, tendré un archivo db.json, donde tengo almacenado todos los productos que verás en la página:
+```sh
+{
+    "productos": [
+        {
+            "id": 1,
+            "nombre": "Armory",
+            "foto": "image/armory.webp",
+            "descripcion": "Armory Shell - Mapex AR628SFU",
+            "precio": "$ 1.819.000,00",
+            "stock": 4,
+            "marca":"Mapex",
+            "envio": true
+        },
+        {
+            "id": 2,
+            "nombre": "Equinox",
+            "foto": "image/equinox.webp",
+            "descripcion": "Equinox - Mapex BPDLE628XFB",
+            "precio": "US$ 4.899,00",
+            "stock": 5,
+            "marca":"Mapex",
+            "envio": true
+        },
+        {
+            "id": 3,
+            "nombre": "Mars Birch",
+            "foto": "image/mars-birch.webp",
+            "descripcion": "Mapex Mars Birch Shell Pack 529SF 5-Pc Rock ...",
+            "precio": "US$ 699,00",
+            "stock": 2,
+            "marca":"Mapex",
+            "envio": true
+        },
+        {
+            "id": 4,
+            "nombre": "Mars Maple",
+            "foto": "image/mars-maple.webp",
+            "descripcion": "Mars Maple Shell Pack - MAPEX MM529SFOG",
+            "precio": "$ 1.242.140,00",
+            "stock": 5,
+            "marca":"Mapex",
+            "envio": true
+        },
+        {
+            "id": 5,
+            "nombre": "Saturn Evolution",
+            "foto": "image/saturn-evolution.webp",
+            "descripcion": "Saturn Evo - Mapex SE529XMPQ",
+            "precio": "$ 2.249.990,00",
+            "stock": 2,
+            "marca":"Mapex",
+            "envio": true
+        },
+        {
+            "id": 6,
+            "nombre": "Venus",
+            "foto": "image/venus.webp",
+            "descripcion": "Venus - Mapex VE5294FTVC",
+            "precio": "$ 1.098.535,00",
+            "stock": 4,
+            "marca":"Mapex",
+            "envio": true
+        },
+        {
+            "id": 7,
+            "nombre": "DW 50th anniversary",
+            "foto": "image/dw-50th-anniversary.webp",
+            "descripcion": "Construidos con una combinación de caqui  y abeto ",
+            "precio": "US$ 11.999,00",
+            "stock": 1,
+            "marca":"DW",
+            "envio": false
+        },
+        {
+            "id": 8,
+            "nombre": "Parches Uno by Evans",
+            "foto": "image/set-parches-evans-uno.webp",
+            "descripcion": "Set Parches Uno By Evans UPG2CLS22 12'',13'',16''...",
+            "precio": "$ 104.061,50",
+            "stock": 20,
+            "marca":"Evans", 
+            "envio": true
+        },
+        {
+            "id": 9,
+            "nombre": "Zildjian - Planet Z",
+            "foto": "image/platillos-zildjian-planet-z.webp",
+            "descripcion": "Set De Platillos Zildjian Planet Z Zp4pk 14-16-20",
+            "precio": "$ 639.981,30",
+            "stock": 8,
+            "marca":"Zildjian",
+            "envio": true
+        }
+    ]
+}
+```
