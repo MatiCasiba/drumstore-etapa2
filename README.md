@@ -1178,6 +1178,33 @@ Eh agregado un archivo Inicio.sass que estará esstilizando al componente Inicio
 }
 ```
 
+## Helpers
+Dentro de la carpeta helper, tendré un archivo peticiones-http.js, con el motivo de llamar a esta función y automáticamente le voy a pasar la url y las opciones:
+```sh
+
+export const peticionesHttp = async (url, options) => {
+    try {
+        
+        const res = await fetch(url, options)
+        # con await hago que la ejecución espere a que la respuesta se reciba antes de continuar
+
+        if(!res.ok) throw new Error("No se pudo realizar", res.status);
+        # res.ok es un booleano que indica si la petición se realizó (true o false), en el caso que falla, lanza un mensaje
+
+        const data = await res.json() # convierte la respuesta a json (res.json()), cómo es una promesa, también uso await
+        return data
+        # devuelve los datos obtenidos
+        
+
+    } catch (error) {
+        console.error('[peticionesHttp]', error)
+    }
+}
+```
+* url: será la direccion a la que se hará la peticion
+* options: es un objeto con configuraciones para la peticion, como por ejemplo método GET, POST, PUT, etc
+
+
 ## Data
 Eh creado una carpeta llamada data, dentro de esta carpeta, tendré un archivo db.json, donde tengo almacenado todos los productos que verás en la página:
 ```sh
