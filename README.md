@@ -1249,6 +1249,26 @@ Eh agregado un archivo Inicio.sass que estará esstilizando al componente Inicio
 }
 ```
 
+## Hooks
+Dentro de hooks para los títulos de mi página, verás en la pestaña que cuando seleccionas algún item del menú, dira "Drumstore" - al itemn donde hayas accedido.
+```sh
+import { useEffect } from "react"
+
+#                                ⬇️ en el caso de que la busqueda sea indefinida
+const useTitulo = (textoTitutlo = 'Sin título') => {
+  useEffect(()=> {
+    document.title = `Drumstore - ${textoTitutlo}`
+  }, [])
+}
+
+export default useTitulo
+```
+* Este hook para que funcione, lo voy a estar llevando a los componetes de la carpeta page, lo verás siendo usado de esta manera:
+```sh
+# un ejemplo:
+useTitulo('Inicio')
+```
+
 ## Contexts
 Dentro de la carpeta context, tengo un archivo llamado ProductoContext, que me va a proporcionar los productos, el proveedor ProductosProvider maneja la lógica de la solicitud http y comparte los productos con todos los componentes que lo consuman:
 * ProductosContext
