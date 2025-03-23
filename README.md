@@ -161,19 +161,19 @@ En Card.jsx estará el código de las tarjetas, osea armaré toda la tarjeta den
 ```sh
 import './Card.scss'
 
-const Card = () => {
+const Card = ({producto}) => {
     return (
         <>
             <div className="card">
                 <article className="card__article">
                     <div className="card__image-container">
-                        <img className="card__image" src="${prod.foto}" alt="texto foto" />
+                        <img className="card__image" src={producto.foto} alt={producto.nombre} />
                     </div>
                     <div className="card__content">
-                        <h2 className="card__heading">Nombre</h2>
+                        <h2 className="card__heading">{producto.nombre}</h2>
                         <div className="card__description">
-                            <p><b>precio</b></p>
-                            <p>$descripción</p>
+                            <p><b>{producto.precio}</b></p>
+                            <p>{producto.descripcion}</p>
                         </div>
                         <a className="card__boton" href="#">COMPRAR</a>
                     </div>
@@ -185,6 +185,7 @@ const Card = () => {
 
 export default Card
 ```
+
 * Esta tarjeta me la llevaré en Inicio.jsx, lo colocaré en el section de tarjetas:
 ```sh
 <section className="cards-container" id="container-productos">
@@ -1131,8 +1132,13 @@ Los contenedores que tengo con clases que uso para sass, osea todo el inicio de 
 ```sh
 import './Inicio.scss'
 import Card from "../components/Card"
+import { useContext } from 'react'
+import ProductosContext from '../contexts/ProductosContext'
 
 const Inicio = () => {
+
+  const {productos} = useContext(ProductosContext)  
+
   return (
     <>
       # el header estará en un componente aparte y se encontrará en App.jsx
@@ -1147,10 +1153,14 @@ const Inicio = () => {
         </section> 
 
         <section className="cards-container" id="container-productos">
-            <Card />
+          {
+            productos && productos.map((producto)=> (
+              <Card producto={producto} key={producto.id} />
+            ))
+          }
+          
         </section>
       </main>
-
       # el footer estará en un componete aparte y también se encuentra en App.jsx
     </>
   )
@@ -1177,6 +1187,110 @@ Eh agregado un archivo Inicio.sass que estará esstilizando al componente Inicio
     gap: 1rem;
 }
 ```
+
+## Contexts
+Dentro de la carpeta context, tengo un archivo llamado ProductoContext, que me va a proporcionar los productos, el proveedor ProductosProvider maneja la lógica de la solicitud http y comparte los productos con todos los componentes que lo consuman:
+* ProductosContext
+```sh
+import { useState } from "react";
+import { createContext } from "react";
+import { peticionesHttp } from "../helpers/peticiones-http";
+import { useEffect } from "react";
+
+# 1. CREO EL CONTEXTO
+const ProductosContext = createContext() # servirá para compartir los datos en toda la aplicacion sin necesidad de que tenga que pasar las props manualmente (prop drilling)
+
+# 2. ARMO EL PROVIDER
+# este envolverá otros componentes para darles acceso al ProductosContext
+const ProductosProvider = ({children}) => {
+
+    # manejo del estado y la url
+    const url = import.meta.env.VITE_BACKEND_PRODUCTOS
+    const [productos, setProductos] = useState(null) # creo el estado de productos
+    # el estado va a almacenar los productos obtenidos
+
+    # asegura que los productos se carguen apenas se rendereiza la aplicación
+    useEffect(() => {
+      getAllProductos() # cuando el componente se monte, voy a realizar el getAllProductos
+    }, [])
+    
+    
+
+    # pido los productos
+    const getAllProductos = async () => {
+        try {
+            const prods = await peticionesHttp(url, {}) # llama a peticiones para obtener los datos
+            setProductos(prods)
+
+        } catch (error) {
+            console.error('[getAllProductos]', error)
+        }
+    }
+
+    const data = {
+        productos # contiene los productos obtenidos
+    }
+
+    # permiten que los componentes hijos accedan a la info de data
+    return <ProductosContext.Provider value={data}>{children}</ProductosContext.Provider>
+    # children representa cualquier componente hijo que esté dentro del ProductosProvider
+}
+
+# 3. EXPORTO EL CONTEXT Y PROVIDER
+export {ProductosProvider} # para envolver la app y proveer datos
+export default ProductosContext # para que otros componentes accedan a los productos
+``` 
+* Uso del Provider en main.jsx
+```sh
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+
+    # envielvo mi aplicación con este
+    <ProductosProvider>
+      <App /> 
+    </ProductosProvider>
+    
+  </StrictMode>,
+)
+```
+* Uso del ProductosContext en Inicio.jsx
+```sh
+import './Inicio.scss'
+import Card from "../components/Card"
+import { useContext } from 'react'
+import ProductosContext from '../contexts/ProductosContext'
+
+const Inicio = () => {
+
+  # me permite acceder a los datos que están en el ProductosContext.jsx
+  const {productos} = useContext(ProductosContext)
+
+  return (
+    <>
+
+      <main>
+        <div className="slider"></div>
+        <section className="section-cards">
+          ...
+        </section> 
+
+        <section className="cards-container" id="container-productos">
+          {
+            productos && productos.map((producto)=> (
+              <Card producto={producto} key={producto.id} />
+            ))
+          }
+          
+        </section>
+      </main>
+
+    </>
+  )
+}
+
+export default Inicio
+```
+Explicando mejor el mapeo, lo que hago es verificar que productos no sea null (producos && evita errores si a´´un no ha llegado los datos). Con .map recorro el array de productos, en cada iteración se crea un componente Card para cada producto, se pasa el objeto producto como prop (producto={producto}) y uso key, porque necesito una clave única para cada elemento de la lista y me evito de repeticiones.
 
 ## Helpers
 Dentro de la carpeta helper, tendré un archivo peticiones-http.js, con el motivo de llamar a esta función y automáticamente le voy a pasar la url y las opciones:
