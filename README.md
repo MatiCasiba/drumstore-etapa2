@@ -1122,6 +1122,161 @@ footer{
     
 }
 ```
+### Alta.jsx
+En este componente, voy a tener un formulario y una tabla (estos dos son componetes dentro de Alta.jsx) de los productos
+```sh
+import Formulario from "../components/como-alta/Formulario"
+import Tabla from "../components/como-alta/Tabla"
+import useTitulo from "../hooks/useTitulo"
+
+const Alta = () => {
+
+  useTitulo('Alta')
+
+  return (
+    <>
+      <h1>Formulario de alta de productos</h1>
+      <hr />
+      <Formulario />
+      <Tabla />
+    </>
+  )
+}
+
+export default Alta
+```
+
+#### Formulario.jsx
+En el formulario, el usuario ingresará información en las entradas
+```sh
+
+const Formulario = () => {
+  return (
+    <>
+        <h2>Agregar : editar</h2>
+        <form>
+            <div>
+                <label htmlFor="lbl-nombre">Nombre</label>
+                <input type="text" id="lbl-nombre" name="nombre" value="" />
+            </div>
+
+            <div>
+                <label htmlFor="lbl-precio">Precio</label>
+                <input type="text" id="lbl-precio" name="precio" value="" />
+            </div>
+
+            <div>
+                <label htmlFor="lbl-stock">Stock</label>
+                <input type="text" id="lbl-stock" name="stock" value="" />
+            </div>
+
+            <div>
+                <label htmlFor="lbl-categoria">Categoría</label>
+                <input type="text" id="lbl-categoria" name="categoria" value="" />
+            </div>
+
+            <div>
+                <label htmlFor="lbl-detalle">Detalle</label>
+                <input type="text" id="lbl-detalle" name="detalle" value="" />
+            </div>
+
+            <div>
+                <label htmlFor="lbl-foto">Foto</label>
+                <input type="text" id="lbl-foto" name="foto" value="" />
+            </div>
+
+            <div>
+                <label htmlFor="lbl-envio">Envio</label>
+                <input type="checkbox" id="lbl-envio" name="envio" checked="" />
+            </div>
+
+            <button type="submit">Guardar : Editar</button>
+            <button type="reset">Limpiar</button>
+
+
+        </form>
+    </>
+  )
+}
+
+export default Formulario
+```
+
+#### Tabla.jsx
+Dentro de la tabla habrá un encabezado y una fila de productos que se encuentra dentro del tbdoy, dentro de este elemento se encuentra el otro componetne que se llamna TablaFila.jsx
+```sh
+import TablaFila from "./TablaFila"
+import './Tabla.scss'
+
+const Tabla = () => {
+  return (
+    <table className="tabla-alta">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Marca</th>
+                <th>Categoría</th>
+                <th>Detalles</th>
+                <th>Foto</th>
+                <th>Envío</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <TablaFila />
+        </tbody>
+    </table>
+  )
+}
+
+export default Tabla
+```
+* estilizo la tabla:
+```sh
+table.tabla-alta {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 95%;
+    margin: 1px auto;
+
+    th, td{
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+}
+```
+
+#### TablaFila.jsx
+En este componente se encontrará organizado los productos con sus acciones también (ver, editar y borrar)
+```sh
+
+const TablaFila = () => {
+  return (
+    <>
+        <tr>
+            <td>nombre</td>
+            <td>precio</td>
+            <td>stock</td>
+            <td>marca</td>
+            <td>categoría</td>
+            <td>detalles</td>
+            <td>foto</td>
+            <td>envío</td>
+            <td>
+                <button>Ver</button>
+                <button>Editar</button>
+                <button>Borrar</button>
+            </td>
+        </tr>
+    </>
+  )
+}
+
+export default TablaFila
+```
 
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
