@@ -355,7 +355,7 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     background: $color-3;
     display: none;
 
-    &__nav-list{ /* .nav-bar__navlist */
+    &__nav-list{ #.nav-bar__navlist 
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -379,7 +379,7 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     &__nav-link{
         display: block;
         background-color: $color-3;
-        padding: 1rem 2rem; /* 16px y 32px */
+        padding: 1rem 2rem; # 16px y 32px 
         color: white;
         text-decoration: none;
         position: relative;
@@ -932,6 +932,9 @@ Dentro de la carpeta page estará mis componentes Alta.jsx, Inicio.jsx, Carrito.
 Los contenedores que tengo con clases que uso para sass, osea todo el inicio de la página que contiene los productos, me los traigo a Inicio.jsx:
 
 ```sh
+import './Inicio.scss'
+import Card from "../components/Card"
+
 const Inicio = () => {
   return (
     <>
@@ -947,7 +950,7 @@ const Inicio = () => {
         </section> 
 
         <section className="cards-container" id="container-productos">
-
+            <Card />
         </section>
       </main>
 
@@ -959,3 +962,21 @@ const Inicio = () => {
 export default Inicio
 ```
 * Nota: antes tenia class y en los label tenía for, a esto los eh remplazado por los nombres className y htmlFor.
+
+#### Estilo del inicio
+Eh agregado un archivo Inicio.sass que estará esstilizando al componente Inicio.jsx:
+```sh
+@import '../index.scss';
+
+.section-cards{
+    background-color: $color-4;
+    padding: 1rem;
+}
+
+.cards-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+```

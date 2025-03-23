@@ -1,3 +1,4 @@
+import './Inicio.scss'
 import Card from "../components/Card"
 
 const Inicio = () => {
