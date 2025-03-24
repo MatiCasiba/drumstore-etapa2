@@ -1122,6 +1122,7 @@ footer{
     
 }
 ```
+
 ### Alta.jsx
 En este componente, voy a tener un formulario y una tabla (estos dos son componetes dentro de Alta.jsx) de los productos
 ```sh
@@ -1277,7 +1278,7 @@ const TablaFila = ({producto}) => {
             <td>
                 <img src={producto.foto} alt={producto.nombre} style={{width: '40px'}}/>
             </td>
-            <td>{producto.envío}</td>
+            <td>{producto.envío ? 'si' : 'no'}</td>
             <td>
                 <button>Ver</button>
                 <button>Editar</button>
@@ -1290,6 +1291,7 @@ const TablaFila = ({producto}) => {
 
 export default TablaFila
 ```
+* Respecto al ternario donde se encuentra producto.envio ({producto.envio ? 'si' : 'no'}), lo hago porque dentro de este se encuentra un booleano (true o false), React no entiende que esa info es un booleano por lo que en lugar de mostrar true o false, voy a colocar 'si' o 'no', para que el usuario sepa cual tiene envío y cual no.
 
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :

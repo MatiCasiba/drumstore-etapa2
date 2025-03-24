@@ -12,7 +12,7 @@ const TablaFila = ({producto}) => {
             <td>
                 <img src={producto.foto} alt={producto.nombre} style={{width: '40px'}}/>
             </td>
-            <td>{producto.envío}</td>
+            <td>{producto.envio ? 'si' : 'no' }</td>
             <td>
                 <button>Ver</button>
                 <button>Editar</button>
