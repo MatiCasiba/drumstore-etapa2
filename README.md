@@ -1207,8 +1207,13 @@ Dentro de la tabla habrá un encabezado y una fila de productos que se encuentra
 ```sh
 import TablaFila from "./TablaFila"
 import './Tabla.scss'
+import { useContext } from "react"
+import ProductosContext from "../../contexts/ProductosContext"
 
 const Tabla = () => {
+    # uso el contexto y para tener la data de productos
+  const {productos} = useContext(ProductosContext)
+
   return (
     <table className="tabla-alta">
         <thead>
@@ -1225,7 +1230,12 @@ const Tabla = () => {
             </tr>
         </thead>
         <tbody>
-            <TablaFila />
+            { # mapeo de los productos
+                productos && productos.map((producto)=> (
+                    <TablaFila producto={producto} key={producto.id} />
+                                        #⬆️ lo paso como prop al componente
+                ))
+            }
         </tbody>
     </table>
   )
@@ -1252,19 +1262,22 @@ table.tabla-alta {
 #### TablaFila.jsx
 En este componente se encontrará organizado los productos con sus acciones también (ver, editar y borrar)
 ```sh
-
-const TablaFila = () => {
+#                   ⬇️recibe la prop que viene del componete Tabla.jsx
+const TablaFila = ({producto}) => {
   return (
     <>
         <tr>
-            <td>nombre</td>
-            <td>precio</td>
-            <td>stock</td>
-            <td>marca</td>
-            <td>categoría</td>
-            <td>detalles</td>
-            <td>foto</td>
-            <td>envío</td>
+        #                 ⬇️uso el nombre correcto que tengo el en db.json para que se pueda ver los detalles del producto
+            <td>{producto.nombre}</td>
+            <td>{producto.precio}</td>
+            <td>{producto.stock}</td>
+            <td>{producto.marca}</td>
+            <td>{producto.categoría}</td>
+            <td>{producto.detalles}</td>
+            <td>
+                <img src={producto.foto} alt={producto.nombre} style={{width: '40px'}}/>
+            </td>
+            <td>{producto.envío}</td>
             <td>
                 <button>Ver</button>
                 <button>Editar</button>

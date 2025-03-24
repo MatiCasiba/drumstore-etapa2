@@ -1,7 +1,12 @@
 import TablaFila from "./TablaFila"
 import './Tabla.scss'
+import { useContext } from "react"
+import ProductosContext from "../../contexts/ProductosContext"
 
 const Tabla = () => {
+
+  const {productos} = useContext(ProductosContext)
+
   return (
     <table className="tabla-alta">
         <thead>
@@ -18,7 +23,11 @@ const Tabla = () => {
             </tr>
         </thead>
         <tbody>
-            <TablaFila />
+            {
+                productos && productos.map((producto)=> (
+                    <TablaFila producto={producto} key={producto.id} />
+                ))
+            }
         </tbody>
     </table>
   )

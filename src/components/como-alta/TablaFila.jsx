@@ -1,16 +1,18 @@
 
-const TablaFila = () => {
+const TablaFila = ({producto}) => {
   return (
     <>
         <tr>
-            <td>nombre</td>
-            <td>precio</td>
-            <td>stock</td>
-            <td>marca</td>
-            <td>categoría</td>
-            <td>detalles</td>
-            <td>foto</td>
-            <td>envío</td>
+            <td>{producto.nombre}</td>
+            <td>{producto.precio}</td>
+            <td>{producto.stock}</td>
+            <td>{producto.marca}</td>
+            <td>{producto.categoría}</td>
+            <td>{producto.detalles}</td>
+            <td>
+                <img src={producto.foto} alt={producto.nombre} style={{width: '40px'}}/>
+            </td>
+            <td>{producto.envío}</td>
             <td>
                 <button>Ver</button>
                 <button>Editar</button>
