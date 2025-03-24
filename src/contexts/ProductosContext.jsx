@@ -28,8 +28,29 @@ const ProductosProvider = ({children}) => {
         }
     }
 
+    const crearProductoContext = async (productoNuevo) => {
+        
+        try {
+            delete productoNuevo.id // borra el atributo/key id del objeto productoNuevo
+            // ! peticion post
+            const options = {
+                method: 'POST',
+                headers: {'content-type' : 'application/json'},
+                body: JSON.stringify(productoNuevo)
+            }
+
+            const prods = await peticionesHttp(url, options)
+            const nuevoEstadoProductos = [...productos, prods]
+            setProductos(nuevoEstadoProductos)
+
+        } catch (error) {
+            console.error('[crearProductoContext]', error)
+        }
+    }
+
     const data = {
-        productos
+        productos,
+        crearProductoContext
     }
 
     return <ProductosContext.Provider value={data}>{children}</ProductosContext.Provider>

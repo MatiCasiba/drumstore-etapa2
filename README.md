@@ -123,6 +123,7 @@ const App = () => {
 
 export default App
 ```
+
 ## App.jsx
 En App.jsx estará toda mi página conectada con los demás archivos para que funcione
 
@@ -1150,49 +1151,139 @@ export default Alta
 #### Formulario.jsx
 En el formulario, el usuario ingresará información en las entradas
 ```sh
+import { useContext, useState } from "react"
+import ProductosContext from "../../contexts/ProductosContext"
 
 const Formulario = () => {
+
+  const {crearProductoContext} = useContext(ProductosContext)
+
+  const formInicial = {
+    id: null,
+    nombre: '',
+    precio: '',
+    stock: '',
+    marca: '',
+    categoria: '',
+    descripcion: '',
+    foto: '',
+    envio: false
+  }
+
+  const [form, setForm] = useState(formInicial)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    crearProductoContext(form)
+  }
+
+  const handleChange = (e) => {
+    const {type, name, checked, value} = e.target
+
+    setForm({
+        ...form,
+        [name] : type === 'checkbox' ? checked : value
+    })
+  }
+
+  const handleReset = () => {
+    setForm(formInicial)
+  }
+
   return (
     <>
         <h2>Agregar : editar</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="lbl-nombre">Nombre</label>
-                <input type="text" id="lbl-nombre" name="nombre" value="" />
+                <input 
+                    type="text" 
+                    id="lbl-nombre" 
+                    name="nombre" 
+                    value={form.nombre} 
+                    onChange={handleChange} 
+                />
             </div>
 
             <div>
                 <label htmlFor="lbl-precio">Precio</label>
-                <input type="text" id="lbl-precio" name="precio" value="" />
+                <input 
+                    type="text" 
+                    id="lbl-precio" 
+                    name="precio" 
+                    value={form.precio} 
+                    onChange={handleChange} 
+                />
             </div>
 
             <div>
                 <label htmlFor="lbl-stock">Stock</label>
-                <input type="text" id="lbl-stock" name="stock" value="" />
+                <input 
+                    type="text" 
+                    id="lbl-stock" 
+                    name="stock" 
+                    value={form.stock} 
+                    onChange={handleChange} 
+                />
+            </div>
+            
+            <div>
+                <label htmlFor="lbl-marca">Marca</label>
+                <input 
+                    type="text" 
+                    id="lbl-marca" 
+                    name="marca" 
+                    value={form.marca} 
+                    onChange={handleChange} 
+                />
             </div>
 
             <div>
                 <label htmlFor="lbl-categoria">Categoría</label>
-                <input type="text" id="lbl-categoria" name="categoria" value="" />
+                <input 
+                    type="text" 
+                    id="lbl-categoria" 
+                    name="categoria" 
+                    value={form.categoria} 
+                    onChange={handleChange} 
+                />
             </div>
 
             <div>
-                <label htmlFor="lbl-detalle">Detalle</label>
-                <input type="text" id="lbl-detalle" name="detalle" value="" />
+                <label htmlFor="lbl-descripcion">Descripción</label>
+                <input 
+                    type="text" 
+                    id="lbl-descripcion" 
+                    name="descripcion" 
+                    value={form.descripcion} 
+                    onChange={handleChange} 
+                />
             </div>
 
             <div>
                 <label htmlFor="lbl-foto">Foto</label>
-                <input type="text" id="lbl-foto" name="foto" value="" />
+                <input 
+                    type="text" 
+                    id="lbl-foto" 
+                    name="foto" 
+                    value={form.foto} 
+                    onChange={handleChange} 
+                />
             </div>
 
             <div>
-                <label htmlFor="lbl-envio">Envio</label>
-                <input type="checkbox" id="lbl-envio" name="envio" checked="" />
+                <label htmlFor="lbl-envio">Envío</label>
+                <input 
+                    type="checkbox" 
+                    id="lbl-envio" 
+                    name="envio" 
+                    checked={form.envio}
+                    onChange={handleChange}
+                />
             </div>
 
             <button type="submit">Guardar : Editar</button>
-            <button type="reset">Limpiar</button>
+            <button type="reset" onClick={handleReset}>Limpiar</button>
 
 
         </form>
@@ -1202,6 +1293,74 @@ const Formulario = () => {
 
 export default Formulario
 ```
+
+* Los form. dentro de los value, vienen del estado form, que manejo el inicio del formulario
+
+* ### Crear producto en formulario
+    * Haré una función para que se pueda crear un producto en el formulario (que el usuario ingrese los datos de su producto) y se muestre en la tabla:
+```sh
+# Formulario.jsx
+
+const {crearProductoContext} = useContext(ProductosContext)
+
+  const formInicial = {
+    id: null,
+    nombre: '',
+    precio: '',
+    stock: '',
+    marca: '',
+    categoria: '',
+    descripcion: '',
+    foto: '',
+    envio: false
+  }
+
+  const [form, setForm] = useState(formInicial)
+
+  const handleSubmit = (e) => {
+    e.preventDefault() # evita que la página se recargue
+    crearProductoContext(form) # llamo a la función del contexto y le pasa el estado form
+  }
+  # dentro de esta función conecto el contexto de crearProductoContext que viene de ProductosContext.jsx y lo obtengo a trabes del useContext(ProductosContext). Al llamarlo, le paso el objeto form, que contiene los datos ingresados por el usuario
+
+# este handeSubmit se lo pasaré al elemento form -> <form onSubmit={handleSubmit}> ... </form>
+```
+```sh
+# ProductosContext.jsx
+
+# dentro del contexto tengo que tener una funcion que cargue/guarde un producto en mi backend
+    const crearProductoContext = async (productoNuevo) => {
+        
+        try {
+            delete productoNuevo.id # borra el atributo/key id del objeto productoNuevo
+            
+            # peticion POST para enviar el nuevo producto al backend
+            const options = {
+                method: 'POST',
+                headers: {'content-type' : 'application/json'},
+                body: JSON.stringify(productoNuevo)
+            }
+
+            # Envía la peticcion http con los datos del producto
+            const prods = await peticionesHttp(url, options)
+
+            # AGREGO EL NUEVO PRODUCTO AL ESTADO LOCAL
+            const nuevoEstadoProductos = [...productos, prods]
+            setProductos(nuevoEstadoProductos)
+
+        } catch (error) {
+            console.error('[crearProductoContext]', error)
+        }
+    }
+
+    const data = {
+        productos,
+        crearProductoContext
+    }
+
+``` 
+Entonces Formulario.jsx obtiene crearProductoContext desde ProductosContext usando useContext(ProductosContext). Cuando el usuario completa y envía el formulario, handleSubmit llama a crearProductoContext(form), crearProductoContext dentro de ProductosContex.jsx procesa el producto, lo envía al backend y actualiza el estado global de productos. Cualquier componente que use "productos" (ej: una tabla que los muestra) se actualizará automaticamente gracias al estado global
+
 
 #### Tabla.jsx
 Dentro de la tabla habrá un encabezado y una fila de productos que se encuentra dentro del tbdoy, dentro de este elemento se encuentra el otro componetne que se llamna TablaFila.jsx
@@ -1224,7 +1383,7 @@ const Tabla = () => {
                 <th>Stock</th>
                 <th>Marca</th>
                 <th>Categoría</th>
-                <th>Detalles</th>
+                <th>Descripción</th>
                 <th>Foto</th>
                 <th>Envío</th>
                 <th>Acciones</th>
@@ -1273,8 +1432,8 @@ const TablaFila = ({producto}) => {
             <td>{producto.precio}</td>
             <td>{producto.stock}</td>
             <td>{producto.marca}</td>
-            <td>{producto.categoría}</td>
-            <td>{producto.detalles}</td>
+            <td>{producto.categoria}</td>
+            <td>{producto.descripcion}</td>
             <td>
                 <img src={producto.foto} alt={producto.nombre} style={{width: '40px'}}/>
             </td>
@@ -1478,8 +1637,29 @@ const ProductosProvider = ({children}) => {
         }
     }
 
+    const crearProductoContext = async (productoNuevo) => {
+        
+        try {
+            delete productoNuevo.id // borra el atributo/key id del objeto productoNuevo
+            // ! peticion post
+            const options = {
+                method: 'POST',
+                headers: {'content-type' : 'application/json'},
+                body: JSON.stringify(productoNuevo)
+            }
+
+            const prods = await peticionesHttp(url, options)
+            const nuevoEstadoProductos = [...productos, prods]
+            setProductos(nuevoEstadoProductos)
+
+        } catch (error) {
+            console.error('[crearProductoContext]', error)
+        }
+    }
+
     const data = {
-        productos # contiene los productos obtenidos
+        productos, # contiene los productos obtenidos
+        crearProductoContext
     }
 
     # permiten que los componentes hijos accedan a la info de data

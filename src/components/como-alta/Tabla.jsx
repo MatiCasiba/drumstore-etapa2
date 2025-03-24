@@ -16,7 +16,7 @@ const Tabla = () => {
                 <th>Stock</th>
                 <th>Marca</th>
                 <th>Categoría</th>
-                <th>Detalles</th>
+                <th>Descripción</th>
                 <th>Foto</th>
                 <th>Envío</th>
                 <th>Acciones</th>
