@@ -48,9 +48,31 @@ const ProductosProvider = ({children}) => {
         }
     }
 
+    const actualizarProductoContext = (productoAEditar) => {
+
+    }
+
+    const eliminarProductoContex = async (id) => {
+        try {
+            const urlEliminacion = url + id
+            const options = {
+                method: 'DELETE'
+                
+            }
+            const prodEliminado = await peticionesHttp(urlEliminacion, options)
+            console.log(prodEliminado);
+            const nuevoEstadoProductos = productos.filter(prod => prod.id !== id)
+            setProductos(nuevoEstadoProductos)
+        } catch (error) {
+            console.error('[eliminarProductoContext]', error)
+        }
+    }
+
     const data = {
         productos,
-        crearProductoContext
+        crearProductoContext,
+        actualizarProductoContext,
+        eliminarProductoContex
     }
 
     return <ProductosContext.Provider value={data}>{children}</ProductosContext.Provider>

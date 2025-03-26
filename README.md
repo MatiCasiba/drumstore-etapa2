@@ -1452,6 +1452,92 @@ export default TablaFila
 ```
 * Respecto al ternario donde se encuentra producto.envio ({producto.envio ? 'si' : 'no'}), lo hago porque dentro de este se encuentra un booleano (true o false), React no entiende que esa info es un booleano por lo que en lugar de mostrar true o false, voy a colocar 'si' o 'no', para que el usuario sepa cual tiene envío y cual no.
 
+* ### Elimino productos de la tabla
+    * En cada productos se encuentran acciones, una de ellas es eliminar, a ese botón de eliminar lo pondré a funcionar, se eliminará el producto de la tabla y a la vez en mi back:
+```sh
+# ProductosContext
+# Voy a crear en el contexto dicha funcion para eliminar los porductos, que después se lo pasaré a TablaFila.jsx
+const eliminarProductoContex = async (id) => {
+        try {
+            const urlEliminacion = url + id
+            const options = {
+                method: 'DELETE'
+                
+            }
+            const prodEliminado = await peticionesHttp(urlEliminacion, options)
+            console.log(prodEliminado);
+            const nuevoEstadoProductos = productos.filter(prod => prod.id !== id)
+            setProductos(nuevoEstadoProductos)
+        } catch (error) {
+            console.error('[eliminarProductoContext]', error)
+        }
+}
+```
+Esta función se va a encargar de eliminar el producto de la APIy luego va a actualizar el estado global de productos.
+    * Primero se construye la url agregando el id para apuntar al porducto específico que se va a eliminar
+    * Después realizo la petición http delete usuando peticionesHttp()
+    * Este filtra la lista de productos en el estado global, eliminando el producto con el id dado
+    * Finalmente voy a actualizar el estado con setProductos(), dejando fuera el producto eliminado
+```sh
+import { useContext } from "react"
+import ProductosContext from "../../contexts/ProductosContext"
+import Swal from "sweetalert2"
+
+const TablaFila = ({producto}) => {
+  
+  # Uso el contexto que tengo en ProductosContexto
+  const {eliminarProductoContex} = useContext(ProductosContext)
+
+  const handleEliminar = (id)=> {
+    Swal.fire({
+      title: "Estás seguro?",
+      text: "No podrás volver atras!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminar!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        eliminarProductoContex(id)
+        Swal.fire({
+          title: "Deleted!",
+          text: "Se eliminó tu el producto.",
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          title: "No lo borraste!",
+          text: "El producto no se borro",
+          icon: "info"
+        });
+      }
+    });
+
+  }
+
+  return (
+    <>
+        <tr>
+            ...
+            <td>
+                <button>Ver</button>
+                <button>Editar</button>
+                <button 
+                    onClick={()=>handleEliminar(producto.id)}>Borrar</button>
+            </td>
+        </tr>
+    </>
+  )
+}
+
+export default TablaFila
+```
+handleEliminar() maneja el evento cuando el usuario jace click sobre el botón de eliminar.
+    * Primero muestro una alertad e confirmación usando Swal.fire(), para que este me funcione tuve que instalar el sweetalert2 (npm install sweetalert2)
+    * Si el usuario confirma, se ejecuta eliminarProductoContext(id), eliminando el producto de la API (db.json) y del estado global
+    * Si se elimina, muestro una alerta de confirmación y si el usuario cancela, muestra una alerta que le va indicar que no se eliminó
+
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
 ```sh
