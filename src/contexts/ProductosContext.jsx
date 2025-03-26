@@ -3,15 +3,17 @@ import { createContext } from "react";
 import { peticionesHttp } from "../helpers/peticiones-http";
 import { useEffect } from "react";
 
-//! 1. CREO EL CONTEXTO
+
 const ProductosContext = createContext()
 
-//! 2. ARMO EL PROVIDER
+
 const ProductosProvider = ({children}) => {
 
     const url = import.meta.env.VITE_BACKEND_PRODUCTOS
     const [productos, setProductos] = useState(null)
     const [productoAEditar, setProductoAEditar] = useState(null)
+
+    const urlMockapi = 'https://67d47c1dd2c7857431edce6d.mockapi.io/apis/v1/producto'
 
     
     useEffect(() => {
@@ -20,7 +22,7 @@ const ProductosProvider = ({children}) => {
     
     const getAllProductos = async () => {
         try {
-            const prods = await peticionesHttp(url, {})
+            const prods = await peticionesHttp(urlMockapi, {})
 
             setProductos(prods)
 
@@ -40,7 +42,7 @@ const ProductosProvider = ({children}) => {
                 body: JSON.stringify(productoNuevo)
             }
 
-            const prods = await peticionesHttp(url, options)
+            const prods = await peticionesHttp(urlMockapi, options)
             const nuevoEstadoProductos = [...productos, prods]
             setProductos(nuevoEstadoProductos)
 
@@ -56,7 +58,7 @@ const ProductosProvider = ({children}) => {
                 headers: {'content-type': 'application/json'},
                 body: JSON.stringify(productoAEditar)
             }
-            const urlActualizar = url + productoAEditar.id
+            const urlActualizar = urlMockapi + productoAEditar.id
             const productoEditado = await peticionesHttp(urlActualizar, options)
 
             const nuevoEstadoProductos = productos.map(prod=>prod.id === productoEditado.id ? productoEditado : prod)
@@ -96,6 +98,6 @@ const ProductosProvider = ({children}) => {
     return <ProductosContext.Provider value={data}>{children}</ProductosContext.Provider>
 }
 
-//! 3. EXPORTO EL CONTEXT Y PROVIDER
+
 export {ProductosProvider}
 export default ProductosContext
