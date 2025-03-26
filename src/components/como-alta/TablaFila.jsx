@@ -4,7 +4,7 @@ import Swal from "sweetalert2"
 
 const TablaFila = ({producto}) => {
 
-  const {eliminarProductoContex} = useContext(ProductosContext)
+  const {eliminarProductoContex, setProductoAEditar} = useContext(ProductosContext)
 
   const handleEliminar = (id)=> {
     Swal.fire({
@@ -34,6 +34,10 @@ const TablaFila = ({producto}) => {
 
   }
 
+  const handleEditar = (producto) => {
+    setProductoAEditar(producto)
+  }
+
   return (
     <>
         <tr>
@@ -49,7 +53,7 @@ const TablaFila = ({producto}) => {
             <td>{producto.envio ? 'si' : 'no' }</td>
             <td>
                 <button>Ver</button>
-                <button>Editar</button>
+                <button onClick={()=>handleEditar(producto)}>Editar</button>
                 <button onClick={()=>handleEliminar(producto.id)}>Borrar</button>
             </td>
         </tr>

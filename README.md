@@ -1538,6 +1538,139 @@ handleEliminar() maneja el evento cuando el usuario jace click sobre el botón d
     * Si el usuario confirma, se ejecuta eliminarProductoContext(id), eliminando el producto de la API (db.json) y del estado global
     * Si se elimina, muestro una alerta de confirmación y si el usuario cancela, muestra una alerta que le va indicar que no se eliminó
 
+### Edito los productos
+Otra de las acciones que tengo también es la de editar, cuando el usuario seleccione el botón de editar, este producto se cargará en el formuario, luego el formulario detecta si el usuario está queriendo editar o crear un nuevo producto.
+* Producto Context.jsx
+```sh
+const [productoAEditar, setProductoAEditar] = useState(null)
+
+const actualizarProductoContext = async (productoAEditar) => {
+        try {
+            const options = {
+                method: 'PUT',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(productoAEditar)
+            }
+            const urlActualizar = url + productoAEditar.id
+            const productoEditado = await peticionesHttp(urlActualizar, options)
+
+            const nuevoEstadoProductos = productos.map(prod=>prod.id === productoEditado.id ? productoEditado : prod)
+
+            setProductos(nuevoEstadoProductos)
+
+        } catch (error) {
+            console.error('[actualizarProductoContext]', error)
+        }
+}
+```
+const actualizarProductoContext, lo que hace es enviar una petición PUT a la API para actualizar el producto con los nuevos datos. Busca en productos el producto con el mismo id y lo reemplaza con el editado, actualiza el estado global (setProductos(nuevoEstadoProductos)) con la nueva lista de productos
+
+* TablaFila.jsx
+```sh
+import { useContext } from "react"
+import ProductosContext from "../../contexts/ProductosContext"
+import Swal from "sweetalert2"
+
+const TablaFila = ({producto}) => {
+
+  const {eliminarProductoContex, setProductoAEditar} = useContext(ProductosContext)
+
+  const handleEliminar = (id)=> {
+    ...
+  }
+
+    # cuando el usuario hace click en el botón editar, esta funcion se ejecuta
+  const handleEditar = (producto) => {
+    setProductoAEditar(producto)
+  }
+
+  return (
+    <>
+        <tr>
+            ...
+            <td>
+                <button>Ver</button>
+                <button onClick={()=>handleEditar(producto)}>Editar</button>
+                <button onClick={()=>handleEliminar(producto.id)}>Borrar</button>
+            </td>
+        </tr>
+    </>
+  )
+}
+
+export default TablaFila
+```
+Que es lo que hace el handle editar? llama a setProductoAEditar(producto), que actualiza el estado global del contexto con el producto seleccionado. Como setProductoAEditar está en ProductosContext, cualquier componente que use productoAEditar recibirá el producto seleccionado automáticamente
+
+* Formulario.jsx
+```sh
+import { useContext, useEffect, useState } from "react"
+import ProductosContext from "../../contexts/ProductosContext"
+
+const Formulario = () => {
+
+    # recibo las props mediante el contexto
+  const {
+    crearProductoContext, 
+    productoAEditar, 
+    setProductoAEditar, 
+    actualizarProductoContext} = useContext(ProductosContext)
+
+  const formInicial = {
+    ...
+  }
+  
+  # Cuando handleEditar actualiza productoAEditar, el useEffect en Formulario.jsx detecta el cambio:
+  useEffect(() => {
+    productoAEditar ? setForm(productoAEditar) : setForm(formInicial)
+  }, [productoAEditar])
+
+  const [form, setForm] = useState(formInicial)
+
+  # Cuando el usuario presiona "editar" (botón de submit), handleSubmit decide si se crea o se actualiza el producto
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    if(form.id === null){
+        crearProductoContext(form)
+    } else {
+        actualizarProductoContext(form)
+    }
+  } 
+
+  const handleChange = (e) => {
+    ...
+  }
+
+  const handleReset = () => {
+    setForm(formInicial)
+    setProductoAEditar(null)
+  }
+
+  return (
+    <>
+        <h2>Agregar : editar</h2>
+        <form onSubmit={handleSubmit}>
+            ...
+
+            <button type="submit">
+                {productoAEditar ? 'Editar' : 'Guardar'}
+            </button>
+            # dentro del boton hago un ternario que cambiará su texto a editar o guardar, dependiendo la accion que decida realizar el ususario
+
+            <button type="reset" onClick={handleReset}>Limpiar</button>
+
+
+        </form>
+    </>
+  )
+}
+
+export default Formulario
+```
+Lo que hace useEffect es ver Ss hay un producto seleccionado para editar, rellena el formulario con sus datos. Si productoAEditar es null, significa que el usuario quiere agregar un nuevo producto, entonces se usa el formulario vacío (formInicial).
+
+
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
 ```sh
