@@ -38,8 +38,13 @@ const CarritoProvider = ({children}) => {
         }
     }
 
+    const eliminarProductoDelCarritoContext = (id) => {
+        eliminarDelCarrito(id)
+    }
+
     const data = {
         agregarProductoAlCarritoContext,
+        eliminarProductoDelCarritoContext,
         carrito
     }
 

@@ -2097,6 +2097,60 @@ Cuando el usuario seleccione el carrito, se le mostrará en la página la secci�
 # en parte el responsable de viajes viene de la direccion de rutas, lo que tengo ahi, será la misma en el to=""
 ```
 
+#### Elimino los productos del carrito
+Tendré una función en el carrito que me servirá para eliminar los productos almacenados:
+```sh
+# CarritoContext.jsx
+
+const eliminarProductoDelCarritoContext = (id) => {
+    eliminarDelCarrito(id)
+}
+
+```
+Esta función va a utilizar "eliminarDelCarrito" de useLocalStorage.jsx, luego esta función se expone dentro del value del contexto
+```sh
+const data = {
+    agregarProductoAlCarritoContext,
+    eliminarProductoDelCarritoContext,
+    carrito
+}
+
+return <CarritoContext.Provider value={data}>{children}</CarritoContext.Provider>
+
+```
+Entonces cualquier componente que consuma este contexto, tendrá acceso a eliminarProductoDelCarritoContext. Este contexto en ItemCarrito.jsx, lo uso para acceder al contexto del carrito:
+```sh
+const { eliminarProductoDelCarritoContext } = useContext(CarritoContext)
+```
+Cuando se presiona el botón "Eliminar", se llama a la función handleEliminar, que recibe el id del producto y ejecuta eliminarProductoDelCarritoContext:
+```sh
+const handleEliminar = (id) => {
+    console.log('Eliminando el producto...', id)
+    eliminarProductoDelCarritoContext(id)
+}
+
+```
+Entonces cada ItemCarrito representa una fila en la tabla del carrito. Al hacer clic en el botón eliminar, se ejecuta handleEliminar, que a la vez invoca eliminarProductoDelCarritoContext con el id del producto a eliminar.
+* eliminarDelCarrito en useLocalStorage: clona el array del carrito nuevoValorAlmacenado, busca el índice del producto dentro del array según el id, lo elimina con .splice(indice, 1), actualiza el estado setValorAlmacenado y guarda los cambios en localStorage:
+```sh
+const eliminarValor = (id) => {
+    try {
+        const nuevoValorAlmacenado = [...valorAlmacenado] // Clona el array
+
+        const indice = nuevoValorAlmacenado.findIndex(item => item.id === id) // Encuentra el índice del producto
+        nuevoValorAlmacenado.splice(indice, 1) // Lo elimina del array
+
+        console.log(nuevoValorAlmacenado) // Muestra el nuevo array sin el producto eliminado
+        setValorAlmacenado(nuevoValorAlmacenado) // Actualiza el estado
+        window.localStorage.setItem(clave, JSON.stringify(nuevoValorAlmacenado)) // Guarda en localStorage
+    } catch (error) {
+        console.error(`Error al eliminar ${clave} del localstorage con ${id} del producto ${error}`)
+    }
+}
+```
+
+
+
 ## Hooks
 Dentro de hooks para los títulos de mi página, verás en la pestaña que cuando seleccionas algún item del menú, dira "Drumstore" - al itemn donde hayas accedido.
 ```sh
