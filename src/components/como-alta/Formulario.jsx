@@ -12,12 +12,12 @@ const Formulario = () => {
   const formInicial = {
     id: null,
     nombre: '',
+    foto: '',
     precio: '',
     stock: '',
     marca: '',
     categoria: '',
     descripcion: '',
-    foto: '',
     envio: false
   }
   
@@ -62,6 +62,17 @@ const Formulario = () => {
                     id="lbl-nombre" 
                     name="nombre" 
                     value={form.nombre} 
+                    onChange={handleChange} 
+                />
+            </div>
+
+            <div>
+                <label htmlFor="lbl-foto">Foto</label>
+                <input 
+                    type="text" 
+                    id="lbl-foto" 
+                    name="foto" 
+                    value={form.foto} 
                     onChange={handleChange} 
                 />
             </div>
@@ -117,17 +128,6 @@ const Formulario = () => {
                     id="lbl-descripcion" 
                     name="descripcion" 
                     value={form.descripcion} 
-                    onChange={handleChange} 
-                />
-            </div>
-
-            <div>
-                <label htmlFor="lbl-foto">Foto</label>
-                <input 
-                    type="text" 
-                    id="lbl-foto" 
-                    name="foto" 
-                    value={form.foto} 
                     onChange={handleChange} 
                 />
             </div>

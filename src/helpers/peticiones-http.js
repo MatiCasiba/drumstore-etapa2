@@ -1,8 +1,8 @@
 
-export const peticionesHttp = async (url, options) => {
+export const peticionesHttp = async (urlMockapi, options) => {
     try {
         
-        const res = await fetch(url, options)
+        const res = await fetch(urlMockapi, options)
         if(!res.ok) throw new Error("No se pudo realizar", res.status);
         const data = await res.json()
         return data

@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createContext } from "react";
 import { peticionesHttp } from "../helpers/peticiones-http";
-import { useEffect } from "react";
 
 
 const ProductosContext = createContext()
-
 
 const ProductosProvider = ({children}) => {
 
@@ -23,7 +21,6 @@ const ProductosProvider = ({children}) => {
     const getAllProductos = async () => {
         try {
             const prods = await peticionesHttp(urlMockapi, {})
-
             setProductos(prods)
 
         } catch (error) {
@@ -72,7 +69,7 @@ const ProductosProvider = ({children}) => {
 
     const eliminarProductoContex = async (id) => {
         try {
-            const urlEliminacion = url + id
+            const urlEliminacion = urlMockapi + id
             const options = {
                 method: 'DELETE'
                 

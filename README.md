@@ -1968,6 +1968,23 @@ export const peticionesHttp = async (url, options) => {
 * url: será la direccion a la que se hará la peticion
 * options: es un objeto con configuraciones para la peticion, como por ejemplo método GET, POST, PUT, etc
 
+### Modifico la peticion
+En lugar de la url, ahora tendré la url de mockapi
+```sh
+export const peticionesHttp = async (urlMockapi, options) => {
+    try {
+        
+        const res = await fetch(urlMockapi, options)
+        if(!res.ok) throw new Error("No se pudo realizar", res.status);
+        const data = await res.json()
+        return data
+        
+
+    } catch (error) {
+        console.error('[peticionesHttp]', error)
+    }
+}
+```
 
 ## Data
 Eh creado una carpeta llamada data, dentro de esta carpeta, tendré un archivo db.json, donde tengo almacenado todos los productos que verás en la página:
