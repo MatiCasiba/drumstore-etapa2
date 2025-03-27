@@ -44,6 +44,30 @@ $color-3: #eb5e28;
 $color-4: #F6F6F6;
 ```
 
+## main.jsx
+El archivo main.jsx es el punto de entrada de la aplicación:
+```sh
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.scss'
+import App from './App.jsx'
+import { ProductosProvider } from './contexts/ProductosContext.jsx'
+import { CarritoProvider } from './contexts/CarritoContex.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <CarritoProvider>
+      <ProductosProvider>
+        <App />
+      </ProductosProvider>
+    </CarritoProvider>
+
+  </StrictMode>,
+)
+
+```
+Este se encarga de importar dependencias como StricMode de react, createRoot para renderizar la app, los estilos (index.scss), y el componente principal (App.jsx). Encapsula la aplicación en los contestos CarritoProvider y ProductosProvider, para que sus datos estén disponibles en toda la app.
+
 ## Rutas
 Para el manejo de las rutas, eh instalado el react router:
 ```sh
@@ -1670,6 +1694,225 @@ export default Formulario
 ```
 Lo que hace useEffect es ver Ss hay un producto seleccionado para editar, rellena el formulario con sus datos. Si productoAEditar es null, significa que el usuario quiere agregar un nuevo producto, entonces se usa el formulario vacío (formInicial).
 
+### Componentes para carrito 
+Eh agregado el contexto CarritoContexto.jsx, ListadoCarrito.jsx y ItemCarrito.jsx, te explicaré como se van complementando estos para que funcione el carrito, lo que va a hacer es almacenar los productos:
+* #### CarritoContex.jsx
+```sh
+import { createContext } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+
+# Creación del contexto
+const CarritoContext = createContext()
+
+# Armado del provider
+const CarritoProvider = ({children}) => {
+
+    const [agregarAlCarrito, eliminarDelCarrito, limpiarCarrito, carrito] = useLocalStorage('carrito', [])
+
+    function elProductoEstaEnElCarrito(producto){
+        const nuevoArray = carrito.filter(prod => prod.id === producto.id)
+        # 1-> El producto ya etsa en el carrito
+        # 0-> no esta en el carrito
+        return nuevoArray.length
+    }
+
+    function obtenerProductoDeCarrito(producto){
+        # si encuentra el producto lo retorna
+        return carrito.find(prod => prod.id === producto.id)
+    }
+
+    const agregarProductoAlCarritoContext = (producto) => {
+        console.log('Ya estoy en el agregar contexto', producto);
+
+        # Averiguo si esta op no esta en el carrito y hago en consecuencia
+        if(!elProductoEstaEnElCarrito(producto)){
+            console.log('No está en el carrito');
+            producto.cantidad = 1
+            agregarAlCarrito(producto) # agregar el producto en el LocalStorage y modificar el estado
+        } else {
+            console.log('Ya esta en el carrito');
+            const productoDeCarrito = obtenerProductoDeCarrito(producto)
+            console.log(productoDeCarrito);
+            productoDeCarrito.cantidad++
+            window.localStorage.setItem('carrito', JSON.stringify(carrito))
+        }
+    }
+
+    const data = {
+        agregarProductoAlCarritoContext,
+        carrito
+    }
+
+    return <CarritoContext.Provider value={data}>{children}</CarritoContext.Provider>
+
+}
+
+# Exportaciones
+export {CarritoProvider}
+export default CarritoContext
+```
+Este va a definir un contexto global para el carrito, utilizando el hook useLocalStorage para manejar los datos en localStorage y el estado del carrito. La función agregarProductoAlcarritoContext se va a encargar de agregar un producto al carrito si no está, en el caso de que esté, incrementa la cantidad y se va a actualizar el localStorage
+
+* #### useLocalStorage.jsx
+Este hook se encuentra en la carpeta de src/hooks:
+```sh
+import { useState } from "react"
+
+export const useLocalStorage = ( clave, valorInicial = []) => {
+
+    const getValorAlmacenado = () => {
+
+        try {
+            const valorAlmacenado = window.localStorage.getItem(clave)
+            return valorAlmacenado ? JSON.parse(valorAlmacenado) : valorInicial
+        } catch (error) {
+            console.error(`Error al obtener ${clave} del localStorage ${error}`)
+            return valorInicial
+        }
+
+    }
+
+    const [valorAlmacenado, setValorAlmacenado] = useState(getValorAlmacenado())
+
+    const guardarValor = (valorNuevo) => {
+
+        try {
+            const nuevoValorAlmacenado = [...valorAlmacenado, valorNuevo] # creo un nuevo array con lo que tenía más lo nuevo
+            setValorAlmacenado(nuevoValorAlmacenado) # seteo el estado (Cambiar el estado)
+            window.localStorage.setItem(clave, JSON.stringify(nuevoValorAlmacenado))
+        } catch (error) {
+            console.error(`Error al guardar ${clave} del localStorage: ${error}`)
+        }
+
+    }
+
+    const eliminarValor = (id) => {
+        try {
+            # const nuevoValorAlmacenado = valorAlmacenado # copia
+            const nuevoValorAlmacenado = [...valorAlmacenado] # clona el array
+
+            const indice = nuevoValorAlmacenado.findIndex(item => item.id === id) # Busco indice del producto que están queriendo eliminadar dentro del array clonado
+            nuevoValorAlmacenado.splice(indice, 1) # Busco dentro del array clonado, el producto y lo borro
+            console.log(nuevoValorAlmacenado) # Acá tengo todo el array del estado menos el producto eliminado
+            setValorAlmacenado(nuevoValorAlmacenado)
+            window.localStorage.setItem(clave, JSON.stringify(nuevoValorAlmacenado))
+        } catch (error) {
+            console.error(`Error al eliminar ${clave} del localstorage con ${id} del producto ${error}`)
+        }
+    }
+
+    const limpiarValores = () => {
+        window.localStorage.clear()
+        window.localStorage.setItem(clave, JSON.stringify(valorInicial))
+        setValorAlmacenado(valorInicial)
+    }
+    #           0
+    return [ guardarValor, eliminarValor, limpiarValores, valorAlmacenado ]
+
+}
+```
+Este me va a permitir almacenar, obtener, eliminar y limpiar valores en el localStorage, la funciones principales de este hook:
+    * guardarValor: agrega un producto al carrtio en localStorage
+    * eliminarValor: se va a encargar de eliminar un producto por id
+    * limpiarValores: va a limpiar todo el carrito
+
+* #### ListadoCarrito.jsx
+Este componente muestra los productos del carrito en una tabla:
+```sh
+import { useContext } from "react"
+import CarritoContext from "../contexts/CarritoContex"
+import ItemCarrito from "./ItemCarrito";
+
+const ListadoCarrito = () => {
+
+    const { carrito } = useContext(CarritoContext)
+    console.log(carrito);
+
+    const handleComprar = () => {
+        console.log('Comprando...')
+        //guardarCarritoContext()
+    }
+
+    const handleLimpiarCarrito = () => {
+        console.log('Vaciando carrito...')
+        //limpiarCarritoContext()
+    }
+
+    return (
+        <>
+            <table className='tabla-carrito'>
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        carrito.length <= 0 ? (
+                            <tr>
+                                <td colSpan={5} style={{ textAlign: 'center' }}>No hay productos</td>
+                            </tr>
+                        ) : (
+                            carrito.map((producto, idx) => (
+                                <ItemCarrito key={idx} producto={producto} />
+                            ))
+                        )
+                    }
+                </tbody>
+            </table>
+            <hr />
+            {!carrito.length <= 0 && (
+                <>
+                    <button onClick={handleLimpiarCarrito}>Vaciar Carrito</button>
+                    <button onClick={handleComprar}>Comprar</button>
+                </>
+            )
+            }
+        </>
+    )
+}
+
+export default ListadoCarrito
+```
+Se usa useContext(CarritoContext) para poder acceder al carrito global, también se impementan botones para vaciar el carrito (handleLimpiarCarrito), y realizar la compra (handleComprar)
+
+* #### ItemsCarrito.jsx
+Este componente representa una fila de producto dentro del carrito:
+```sh
+import React, { useContext } from 'react'
+import CarritoContext from '../contexts/CarritoContex'
+
+const ItemCarrito = ({producto}) => {
+
+    const {eliminarProductoDelCarritoContext} = useContext(CarritoContext)
+
+    const handleEliminar = (id) => {
+        console.log('Eliminando el producto...', id)
+        //eliminarProductoDelCarritoContext(id)
+    }
+
+  return (
+    <tr>
+        <td>
+            <img src={producto.foto} alt={producto.nombre} width="50px" />
+        </td>
+        <td>{producto.nombre}</td>
+        <td>{producto.cantidad}</td>
+        <td>{producto.precio}</td>
+        <td>
+            <button onClick={() => handleEliminar(producto.id)}>Eliminar</button>
+        </td>
+    </tr>
+  )
+}
+
+export default ItemCarrito
+```
+
 
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
@@ -1795,6 +2038,40 @@ Eh agregado un archivo Inicio.sass que estará esstilizando al componente Inicio
     justify-content: center;
     gap: 1rem;
 }
+```
+
+### Carrito.jsx
+Carrito va almacenar los productos que el usario decida comprar:
+```sh
+import ListadoCarrito from "../components/ListadoCarrito"
+import useTitulo from "../hooks/useTitulo"
+
+const Carrito = () => {
+
+  useTitulo('Compras')    
+
+  return (
+    <>
+      <h1>Mis compras</h1>
+      <hr />
+
+      <ListadoCarrito />
+
+    </>
+  )
+}
+
+export default Carrito
+```
+
+#### Accediendo a la sección de carrito
+Cuando el usuario seleccione el carrito, se le mostrará en la página la sección de carrito que vendria ser sus compras, el responsable de este viaje lo encontrarás en el componente SearchBar.jsx:
+```sh
+<div className="search-bar__carrito-container">
+    <Link to="/carrito"><img className="search-bar__cart-logo" src="/logo/cart-logo.png" alt="logo de carro" /></Link>
+</div>
+
+# en parte el responsable de viajes viene de la direccion de rutas, lo que tengo ahi, será la misma en el to=""
 ```
 
 ## Hooks

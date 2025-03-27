@@ -1,6 +1,15 @@
+import { useContext } from 'react'
 import './Card.scss'
+import CarritoContext from '../contexts/CarritoContex'
 
 const Card = ({producto}) => {
+
+    const {agregarProductoAlCarritoContext} = useContext(CarritoContext)
+
+    const handleAgregar = (producto) => {
+        agregarProductoAlCarritoContext(producto)
+    }
+
     return (
         <>
             <div className="card">
@@ -12,9 +21,14 @@ const Card = ({producto}) => {
                         <h2 className="card__heading">{producto.nombre}</h2>
                         <div className="card__description">
                             <p><b>{producto.precio}</b></p>
-                            <p>{producto.descripcion}</p>
+                            <button 
+                                className="card__boton" 
+                                onClick={()=>handleAgregar(producto)}
+                            >
+                                COMPRAR
+                            </button>
                         </div>
-                        <a className="card__boton" href="#">COMPRAR</a>
+                        
                     </div>
                 </article>
             </div>
