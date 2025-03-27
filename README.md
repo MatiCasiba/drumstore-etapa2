@@ -1738,6 +1738,31 @@ const CarritoProvider = ({children}) => {
         }
     }
 
+    const eliminarProductoDelCarritoContext = (id) => {
+        eliminarDelCarrito(id)
+    }
+
+    const limpiarCarritoContext = () => {
+        limpiarCarrito()
+    }
+
+    const guardarCarritoBackendContext = async () => {
+        
+        try {
+           const options = {
+                method: 'POST',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(carrito)
+           }
+           const carritoGuardado = await peticionesHttp(urlCarrito, options) 
+           console.log(carritoGuardado);
+
+           limpiarCarrito()
+        } catch (error) {
+            console.error('[guardarCarritoBackendContext]',error)
+        }
+    }
+
     const data = {
         agregarProductoAlCarritoContext,
         carrito
@@ -1825,17 +1850,21 @@ import ItemCarrito from "./ItemCarrito";
 
 const ListadoCarrito = () => {
 
-    const { carrito } = useContext(CarritoContext)
-    console.log(carrito);
+    const { 
+        carrito, 
+        limpiarCarritoContext, 
+        guardarCarritoBackendContext } = useContext(CarritoContext)
+    
+        console.log(carrito);
 
     const handleComprar = () => {
         console.log('Comprando...')
-        //guardarCarritoContext()
+        guardarCarritoBackendContext()
     }
 
     const handleLimpiarCarrito = () => {
         console.log('Vaciando carrito...')
-        //limpiarCarritoContext()
+        limpiarCarritoContext()
     }
 
     return (
@@ -2149,6 +2178,69 @@ const eliminarValor = (id) => {
 }
 ```
 
+#### Limpio y guardo en carrito
+Tendremos 2 botones con la funcion de limpiar y guardar en el carro
+* limpiarCarritoContext 
+```sh
+#CarritoContext.jsx
+const limpiarCarritoContext = () => {
+    limpiarCarrito()
+}
+
+```
+Esta fucnion llama a limpiarCarrito() que viene de useLocalStorage, borra el carrito  tanto en el estadod e React como en el localStorage. Cómo uso este contexto ?:
+```sh
+# ListadoCarrito.jsx
+const { carrito, limpiarCarritoContext } = useContext(CarritoContext);
+
+const handleLimpiarCarrito = () => {
+    console.log('Vaciando carrito...')
+    limpiarCarritoContext()
+}
+
+```
+el useContext obtiene la funcion del contexto, handleLimpiarCarrito() la ejecuta cuando el usuario presiona el boton de vaciar, entonces al activarse, el carrito se vacia y se actualiza el estado de la app.
+```sh
+# boton que activa la funcion
+<button onClick={handleLimpiarCarrito}>Vaciar Carrito</button>
+```
+
+* guardarCarritoBackendContext
+```sh
+const guardarCarritoBackendContext = async () => {
+    try {
+        const options = {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(carrito)
+        }
+        const carritoGuardado = await peticionesHttp(urlCarrito, options)
+        console.log(carritoGuardado);
+
+        limpiarCarrito() # borra el carrito despues de guardarlo
+    } catch (error) {
+        console.error('[guardarCarritoBackendContext]', error)
+    }
+}
+
+```
+Esta función envia el carito al backend con una peticion http POST, limpia el carrito después de guardarlo correctamente. Cómo lo uso en ListadoCarrito.jsx ?:
+```sh
+const { guardarCarritoBackendContext } = useContext(CarritoContext);
+
+const handleComprar = () => {
+    console.log('Comprando...')
+    guardarCarritoBackendContext()
+}
+
+```
+handleComprar() se ejecuta cuando el usuario slecciona el botón de comprar, llama a guardarCarritoBackendContext(), que guarda el carrito en el backend y luego lo limpia
+```sh
+#boton que activa la función
+<button onClick={handleComprar}>Comprar</button>
+
+```
+
 
 
 ## Hooks
@@ -2295,6 +2387,93 @@ const Inicio = () => {
 export default Inicio
 ```
 Explicando mejor el mapeo, lo que hago es verificar que productos no sea null (producos && evita errores si a´´un no ha llegado los datos). Con .map recorro el array de productos, en cada iteración se crea un componente Card para cada producto, se pasa el objeto producto como prop (producto={producto}) y uso key, porque necesito una clave única para cada elemento de la lista y me evito de repeticiones.
+
+* CarritoContext.jsx:
+También tengo el CarritoContext.jsx, que voy a estar manejando el estado global del carrito de compras en mi página. Entonces este contexto centraliza y gestiona la lógica del carrito, permitiendo que cualquier componente acceda y modifique su contenido fácilmente.
+```sh
+import { createContext } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { peticionesHttp } from "../helpers/peticiones-http";
+
+// ! Creación del contexto
+const CarritoContext = createContext()
+
+// ! Armado del provider
+const CarritoProvider = ({children}) => {
+    const urlCarrito= import.meta.env.VITE_BACKEND_CARRITO
+
+    const [agregarAlCarrito, eliminarDelCarrito, limpiarCarrito, carrito] = useLocalStorage('carrito', [])
+
+    function elProductoEstaEnElCarrito(producto){
+        const nuevoArray = carrito.filter(prod => prod.id === producto.id)
+        // 1-> El producto ya etsa en el carrito
+        // 0-> no esta en el carrito
+        return nuevoArray.length
+    }
+
+    function obtenerProductoDeCarrito(producto){
+        // sie encuentra el producto lo retorna
+        return carrito.find(prod => prod.id === producto.id)
+    }
+
+    const agregarProductoAlCarritoContext = (producto) => {
+        console.log('Ya estoy en el agregar contexto', producto);
+
+        // Averiguo si esta op no esta en el carrito y hago en consecuencia
+        if(!elProductoEstaEnElCarrito(producto)){
+            console.log('No está en el carrito');
+            producto.cantidad = 1
+            agregarAlCarrito(producto) // agregar el producto en el LocalStorage y modificar el estado
+        } else {
+            console.log('Ya esta en el carrito');
+            const productoDeCarrito = obtenerProductoDeCarrito(producto)
+            console.log(productoDeCarrito);
+            productoDeCarrito.cantidad++
+            window.localStorage.setItem('carrito', JSON.stringify(carrito))
+        }
+    }
+
+    const eliminarProductoDelCarritoContext = (id) => {
+        eliminarDelCarrito(id)
+    }
+
+    const limpiarCarritoContext = () => {
+        limpiarCarrito()
+    }
+
+    const guardarCarritoBackendContext = async () => {
+        
+        try {
+           const options = {
+                method: 'POST',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(carrito)
+           }
+           const carritoGuardado = await peticionesHttp(urlCarrito, options) 
+           console.log(carritoGuardado);
+
+           limpiarCarrito()
+        } catch (error) {
+            console.error('[guardarCarritoBackendContext]',error)
+        }
+    }
+
+    const data = {
+        agregarProductoAlCarritoContext,
+        eliminarProductoDelCarritoContext,
+        limpiarCarritoContext,
+        guardarCarritoBackendContext,
+        carrito
+    }
+
+    return <CarritoContext.Provider value={data}>{children}</CarritoContext.Provider>
+
+}
+
+//! Exportaciones
+export {CarritoProvider}
+export default CarritoContext
+```
 
 ## Helpers
 Dentro de la carpeta helper, tendré un archivo peticiones-http.js, con el motivo de llamar a esta función y automáticamente le voy a pasar la url y las opciones:

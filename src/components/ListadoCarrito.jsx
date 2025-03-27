@@ -5,17 +5,21 @@ import './ListadoCarrito.scss'
 
 const ListadoCarrito = () => {
 
-    const { carrito } = useContext(CarritoContext)
-    console.log(carrito);
+    const { 
+        carrito, 
+        limpiarCarritoContext, 
+        guardarCarritoBackendContext } = useContext(CarritoContext)
+    
+        console.log(carrito);
 
     const handleComprar = () => {
         console.log('Comprando...')
-        //guardarCarritoContext()
+        guardarCarritoBackendContext()
     }
 
     const handleLimpiarCarrito = () => {
         console.log('Vaciando carrito...')
-        //limpiarCarritoContext()
+        limpiarCarritoContext()
     }
 
     return (
