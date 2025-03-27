@@ -1880,6 +1880,29 @@ export default ListadoCarrito
 ```
 Se usa useContext(CarritoContext) para poder acceder al carrito global, también se impementan botones para vaciar el carrito (handleLimpiarCarrito), y realizar la compra (handleComprar)
 
+* Estilo del listado del carrito
+Eh agregado un archivo ListadoCarrito.scss para estilizar la lista del carrito:
+```sh
+table.tabla-carrito {
+    border-collapse: collapse;
+    width: 95%;
+    margin: 1rem auto;
+    
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+}
+```
+
+
 * #### ItemsCarrito.jsx
 Este componente representa una fila de producto dentro del carrito:
 ```sh
