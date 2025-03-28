@@ -8,8 +8,6 @@ const Alta = () => {
 
   return (
     <>
-      <h1>Formulario de alta de productos</h1>
-      <hr />
       <Formulario />
       <Tabla />
     </>

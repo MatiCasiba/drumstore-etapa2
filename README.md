@@ -1503,6 +1503,76 @@ Eh estilizado todo el código del Formulario.jsx, en este caso es pensado al pri
 ```
 Habrán espacios, tamaños, hasta los botones de este formulario se encuentran estilizados, con un color de fondo naranja y el texto en blanco.
 
+* Breakpoints: como mencioné anteriormente, este formulario se adapta tanto a celulares como a computadoras (con pantallas de 1200px a 1400px), también lo pensé para casos de tablets, los celulares y tables no tendrán animaciones, mientras que en las computadoras si notarás que tiene animación, por ejemplo los botones. Esto debido a que no se notan las animaciones en dispositivos moviles:
+```sh
+    @media screen and (min-width: 768px) { # pensado desde aquí hasta 1199 cómo dispositivos tablets
+
+        &{
+            font-size: 1.5rem;
+        }
+
+        &__labels{
+            font-weight: 600
+        }
+
+        &__entrada-datos {
+            width: 50%;
+        }
+
+    }
+    
+    @media screen and (min-width: 1200px) {
+
+        &{
+            width: 50%;
+            margin: 0 auto;
+            margin-bottom: 40px;
+        }
+
+        &__labels{
+            font-weight: 800;
+            font-size: 1.4rem;
+        }
+
+        &__contenedor-datos {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        &__entrada-datos {
+            width: 55%;
+            font-size: 1.3rem;
+        }
+
+        &__botones{
+            margin-top: 20px;
+            gap: 70px;
+        }   
+        &__boton{
+            font-size: 1.1rem;
+        }
+        &__boton:hover{
+            box-shadow: 3px 5px 10px black;
+        }
+
+    }
+
+    @media screen and (min-width: 1400px){
+
+        &{
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        &__entrada-datos{
+            padding: 8px;
+            font-size: 1.2rem;
+            width: 40%;
+        }
+
+    }
+```
+
 
 #### Tabla.jsx
 Dentro de la tabla habrá un encabezado y una fila de productos que se encuentra dentro del tbdoy, dentro de este elemento se encuentra el otro componetne que se llamna TablaFila.jsx
