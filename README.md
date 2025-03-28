@@ -1175,31 +1175,47 @@ export default Alta
 #### Formulario.jsx
 En el formulario, el usuario ingresará información en las entradas
 ```sh
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import ProductosContext from "../../contexts/ProductosContext"
+import './Formulario.scss'
 
 const Formulario = () => {
 
-  const {crearProductoContext} = useContext(ProductosContext)
+  const {
+    crearProductoContext, 
+    productoAEditar, 
+    setProductoAEditar, 
+    actualizarProductoContext} = useContext(ProductosContext)
 
   const formInicial = {
     id: null,
     nombre: '',
+    foto: '',
     precio: '',
     stock: '',
     marca: '',
     categoria: '',
     descripcion: '',
-    foto: '',
     envio: false
   }
+  
+  useEffect(() => {
+    productoAEditar ? setForm(productoAEditar) : setForm(formInicial)
+  }, [productoAEditar])
 
   const [form, setForm] = useState(formInicial)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    crearProductoContext(form)
-  }
+    
+    if(form.id === null){
+        crearProductoContext(form)
+    } else {
+        actualizarProductoContext(form)
+    }
+
+    handleReset()
+  } 
 
   const handleChange = (e) => {
     const {type, name, checked, value} = e.target
@@ -1212,105 +1228,112 @@ const Formulario = () => {
 
   const handleReset = () => {
     setForm(formInicial)
+    setProductoAEditar(null)
   }
 
   return (
     <>
-        <h2>Agregar : editar</h2>
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="lbl-nombre">Nombre</label>
-                <input 
-                    type="text" 
-                    id="lbl-nombre" 
-                    name="nombre" 
-                    value={form.nombre} 
-                    onChange={handleChange} 
-                />
-            </div>
-
-            <div>
-                <label htmlFor="lbl-precio">Precio</label>
-                <input 
-                    type="text" 
-                    id="lbl-precio" 
-                    name="precio" 
-                    value={form.precio} 
-                    onChange={handleChange} 
-                />
-            </div>
-
-            <div>
-                <label htmlFor="lbl-stock">Stock</label>
-                <input 
-                    type="text" 
-                    id="lbl-stock" 
-                    name="stock" 
-                    value={form.stock} 
-                    onChange={handleChange} 
-                />
-            </div>
+        <div className="formulario">
+            <h2 className="formulario__titulos">{productoAEditar ? 'Editar' : 'Guardar producto'}</h2>
+            <form className="formulario__contendor-datos" onSubmit={handleSubmit}>
+                <div className="formulario__datos">
+                    <label className="formulario__labels" htmlFor="lbl-nombre">Nombre</label>
+                    <input
+                        type="text"
+                        id="lbl-nombre"
+                        name="nombre"
+                        value={form.nombre}
+                        onChange={handleChange}
+                        className="formulario__entrada-datos"
+                    />
+                </div>
+                <div className="formulario__datos">
+                    <label className="formulario__labels" htmlFor="lbl-foto">Foto</label>
+                    <input
+                        type="text"
+                        id="lbl-foto"
+                        name="foto"
+                        value={form.foto}
+                        onChange={handleChange}
+                        className="formulario__entrada-datos"
+                    />
+                </div>
+                <div className="formulario__datos">
+                    <label className="formulario__labels" htmlFor="lbl-precio">Precio</label>
+                    <input
+                        type="text"
+                        id="lbl-precio"
+                        name="precio"
+                        value={form.precio}
+                        onChange={handleChange}
+                        className="formulario__entrada-datos"
+                    />
+                </div>
+                <div className="formulario__datos">
+                    <label className="formulario__labels" htmlFor="lbl-stock">Stock</label>
+                    <input
+                        type="text"
+                        id="lbl-stock"
+                        name="stock"
+                        value={form.stock}
+                        onChange={handleChange}
+                        className="formulario__entrada-datos"
+                    />
+                </div>
             
-            <div>
-                <label htmlFor="lbl-marca">Marca</label>
-                <input 
-                    type="text" 
-                    id="lbl-marca" 
-                    name="marca" 
-                    value={form.marca} 
-                    onChange={handleChange} 
-                />
-            </div>
+                <div className="formulario__datos">
+                    <label className="formulario__labels" htmlFor="lbl-marca">Marca</label>
+                    <input
+                        type="text"
+                        id="lbl-marca"
+                        name="marca"
+                        value={form.marca}
+                        onChange={handleChange}
+                        className="formulario__entrada-datos"
+                    />
+                </div>
+                <div className="formulario__datos">
+                    <label className="formulario__labels" htmlFor="lbl-categoria">Categoría</label>
+                    <input
+                        type="text"
+                        id="lbl-categoria"
+                        name="categoria"
+                        value={form.categoria}
+                        onChange={handleChange}
+                        className="formulario__entrada-datos"
+                    />
+                </div>
+                <div className="formulario__datos">
+                    <label className="formulario__labels" htmlFor="lbl-descripcion">Descripción</label>
+                    <input
+                        type="text"
+                        id="lbl-descripcion"
+                        name="descripcion"
+                        value={form.descripcion}
+                        onChange={handleChange}
+                        className="formulario__entrada-datos"
+                    />
+                </div>
+                <div className="formulario__checkbox">
+                    <label className="formulario__labels" htmlFor="lbl-envio">Envío</label>
+                    <input
+                        type="checkbox"
+                        id="lbl-envio"
+                        name="envio"
+                        checked={form.envio}
+                        onChange={handleChange}
+                        className="formulario__check"
+                    />
+                </div>
+                <div className="formulario__botones">
+                    <button className="formulario__boton" type="submit">
+                        {productoAEditar ? 'Editar' : 'Guardar'}
+                    </button>
 
-            <div>
-                <label htmlFor="lbl-categoria">Categoría</label>
-                <input 
-                    type="text" 
-                    id="lbl-categoria" 
-                    name="categoria" 
-                    value={form.categoria} 
-                    onChange={handleChange} 
-                />
-            </div>
-
-            <div>
-                <label htmlFor="lbl-descripcion">Descripción</label>
-                <input 
-                    type="text" 
-                    id="lbl-descripcion" 
-                    name="descripcion" 
-                    value={form.descripcion} 
-                    onChange={handleChange} 
-                />
-            </div>
-
-            <div>
-                <label htmlFor="lbl-foto">Foto</label>
-                <input 
-                    type="text" 
-                    id="lbl-foto" 
-                    name="foto" 
-                    value={form.foto} 
-                    onChange={handleChange} 
-                />
-            </div>
-
-            <div>
-                <label htmlFor="lbl-envio">Envío</label>
-                <input 
-                    type="checkbox" 
-                    id="lbl-envio" 
-                    name="envio" 
-                    checked={form.envio}
-                    onChange={handleChange}
-                />
-            </div>
-
-            <button type="submit">Guardar : Editar</button>
-            <button type="reset" onClick={handleReset}>Limpiar</button>
-
-
-        </form>
+                    <button className="formulario__boton" type="reset" onClick={handleReset}>Limpiar</button>
+                </div>
+            </form>
+        </div>
     </>
   )
 }
@@ -1399,6 +1422,86 @@ const handleSubmit = (e) => {
     handleReset() # llamo a la función para resetear el formulario
   } 
 ```
+* #### Estilizo el formulario
+Eh estilizado todo el código del Formulario.jsx, en este caso es pensado al principio para dispositivos moviles, pero despues les agregaré media querys para que el formulario se adapte a pc. Como notaste en todo el código de formulario, tienen clases, con esas clases voy a trabajar para estilizarlo:
+```sh
+# Formualiro.scss
+@import "../../index.scss"; 
+
+.formulario{
+    background-color: $color-4;
+    font-size: 1.2rem; # tamaño de fuente
+    height: 100%;
+    padding: 40px;
+
+    &__titulos{
+        font-weight: 900;
+        color: $color-3;
+        text-align: center;
+        text-shadow: 2px 3px 5px $color-2; # sombra del texto
+        letter-spacing: 5px;
+        border-radius: 20px;
+        padding: 5px;
+        margin: 15px 15px 45px 15px; # espacio en los margenes de arriba, derecha, debajo y izquierda (se encuentra en ese orden cada valor)
+    }
+
+    &__labels{
+        margin-top: 20px;
+        letter-spacing: 2px;
+        font-weight: 700; # grosor del texto
+    }
+
+    &__datos {
+        display: flex;
+        flex-direction: column; # los elementos se acomodan verticalmente
+        align-items: center;
+        gap: 10px; # 
+    }
+    &__entrada-datos {
+        width: 60%; # ancho del input
+        padding: 4px; # grosor del input
+        
+        # quito los bores de arriba, izquierda y derecha, dejo solamente el de abajo
+        border-left: none;
+        border-top: none;
+        border-right: none; 
+        background-color: $color-4;
+    }
+
+    &__checkbox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    &__check{
+        margin-top: 20px;
+        width: 20px;
+        height: 20px;
+    }
+
+    &__botones{
+        display: flex;
+        align-items: center; # centro los botones verticalmente
+        justify-content: center; # centro los botones horizontalmente
+        gap: 20px; # espacio entre los elementos
+    }
+    &__boton {
+        text-align: center; # centro el texto del botón
+        margin-top: 20px; # espacio en el margen de arriba
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px; # redondeo los bordes de las esquinas
+        background-color: $color-3; # color de fondo
+        cursor: pointer; # el cursor se transforma en una mano cuando el usuario se pare sobre el botón
+        color: $color-4; # color de la letra
+        font-weight: 900; # grosor de la letra
+        letter-spacing: 2px; # espacio entre las letras
+    }
+
+}
+```
+Habrán espacios, tamaños, hasta los botones de este formulario se encuentran estilizados, con un color de fondo naranja y el texto en blanco.
 
 
 #### Tabla.jsx

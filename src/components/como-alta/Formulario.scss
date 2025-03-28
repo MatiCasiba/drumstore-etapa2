@@ -1,0 +1,72 @@
+@import "../../index.scss"; 
+
+.formulario{
+    background-color: $color-4;
+    font-size: 1.2rem;
+    height: 100%;
+    padding: 40px;
+
+    &__titulos{
+        font-weight: 900;
+        color: $color-3;
+        text-align: center;
+        text-shadow: 2px 3px 5px $color-2;
+        letter-spacing: 5px;
+        border-radius: 20px;
+        padding: 5px;
+        margin: 15px 15px 45px 15px;
+    }
+
+    &__labels{
+        margin-top: 20px;
+        letter-spacing: 2px;
+        font-weight: 700;
+    }
+
+    &__datos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    &__entrada-datos {
+        width: 60%;
+        padding: 4px;
+        border-left: none;
+        border-top: none;
+        border-right: none;
+        background-color: $color-4;
+    }
+
+    &__checkbox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    &__check{
+        margin-top: 20px;
+        width: 20px;
+        height: 20px;
+    }
+
+    &__botones{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    &__boton {
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: $color-3;
+        cursor: pointer;
+        color: $color-4;
+        font-weight: 900;
+        letter-spacing: 2px;
+    }
+
+}
