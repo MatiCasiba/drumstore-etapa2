@@ -35,6 +35,8 @@ const Formulario = () => {
     } else {
         actualizarProductoContext(form)
     }
+
+    handleReset()
   } 
 
   const handleChange = (e) => {

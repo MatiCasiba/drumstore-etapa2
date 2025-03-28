@@ -1383,7 +1383,22 @@ const {crearProductoContext} = useContext(ProductosContext)
     }
 
 ``` 
-Entonces Formulario.jsx obtiene crearProductoContext desde ProductosContext usando useContext(ProductosContext). Cuando el usuario completa y envía el formulario, handleSubmit llama a crearProductoContext(form), crearProductoContext dentro de ProductosContex.jsx procesa el producto, lo envía al backend y actualiza el estado global de productos. Cualquier componente que use "productos" (ej: una tabla que los muestra) se actualizará automaticamente gracias al estado global
+Entonces Formulario.jsx obtiene crearProductoContext desde ProductosContext usando useContext(ProductosContext). Cuando el usuario completa y envía el formulario, handleSubmit llama a crearProductoContext(form), crearProductoContext dentro de ProductosContex.jsx procesa el producto, lo envía al backend y actualiza el estado global de productos. Cualquier componente que use "productos" (ej: una tabla que los muestra) se actualizará automaticamente gracias al estado global.
+* #### Limpio el formulario cuando envio los datos
+Cuando termine de crear un producto o de editar, al momento de guardar, lo que voy a querer es que se limpien los inputs del formulario. Eso se lo logro pasando la función handleReset() al handleSubmit:
+```sh
+const handleSubmit = (e) => {
+    e.preventDefault()
+    
+    if(form.id === null){
+        crearProductoContext(form)
+    } else {
+        actualizarProductoContext(form)
+    }
+
+    handleReset() # llamo a la función para resetear el formulario
+  } 
+```
 
 
 #### Tabla.jsx
