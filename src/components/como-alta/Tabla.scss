@@ -1,28 +1,50 @@
 @import '../../index.scss';
 
-.tabla-contenedor{
+.tabla-contenedor {
     width: 100%;
     overflow-x: auto; // me permite el scroll horizontalmente
-}
 
-table.table-alta{
-    width: 95%;
-    min-width: 316px; // me aseguro que la tabla no se achique menos de esto
-    border: 1px solid black;
-    border-collapse: collapse;
-    margin: 1px auto;
-    background-color: $color-4;
-
-    th, td{
+    &__tabla-alta {
+        width: 95%;
+        min-width: 316px;
         border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-        white-space: nowrap; // evito que el contenido se rompa
+        border-collapse: collapse;
+        margin: 1px auto;
+        background-color: $color-4;
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: $color-3;
+            color: $color-4;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
     }
 
-    th{
-        background-color: $color-3;
-        color: $color-4;
-        font-weight: bold;
+    @media screen and (min-width: 768px) {
+
+        td{
+            border: 2px solid black;
+        }
+        th{
+            font-size: 1.3rem;
+            text-align: center;
+            border: 2px solid black;
+        }
+        
+    }
+
+    @media screen and (min-width: 1400px) {
+        th{
+            font-size: 1.5rem;
+        }
     }
 }

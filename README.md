@@ -1636,33 +1636,57 @@ Cómo la tabla es grande y estoy pensando que la página se adapte en celulares,
 # Tabla.scss
 @import '../../index.scss';
 
-.tabla-contenedor{
+.tabla-contenedor {
     width: 100%;
-    overflow-x: auto; #me permite el scroll horizontalmente
-}
+    overflow-x: auto; # me permite el scroll horizontalmente
 
-table.table-alta{
-    width: 95%;
-    min-width: 316px; # me aseguro que la tabla no se achique menos de esto
-    border: 1px solid black;
-    border-collapse: collapse;
-    margin: 1px auto;
-    background-color: $color-4;
-
-    th, td{
+    &__tabla-alta {
+        width: 95%;
+        min-width: 316px; # me aseguro que la tabla no se achique menos de esto
         border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-        white-space: nowrap; # evito que el contenido se rompa
-    }
+        border-collapse: collapse;
+        margin: 1px auto;
+        background-color: $color-4;
 
-    th{
-        background-color: $color-3;
-        color: $color-4;
-        font-weight: bold;
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            white-space: nowrap; # evito que el contenido se rompa
+        }
+
+        th {
+            background-color: $color-3;
+            color: $color-4;
+            font-weight: bold;
+        }
     }
 }
 ```
+
+* Breakpoints de Tabla.jsx: lo que va a cambiar en Tabla.js a medida que se va agrandando la pantalla, es el grosor de los bordes y el tamaño de fuente
+```sh
+@media screen and (min-width: 768px) {
+
+        td{
+            border: 2px solid black;
+        }
+        th{
+            font-size: 1.3rem;
+            text-align: center;
+            border: 2px solid black;
+        }
+        
+    }
+
+    @media screen and (min-width: 1400px) {
+        th{
+            font-size: 1.5rem;
+        }
+    }
+```
+
 
 #### TablaFila.jsx
 En este componente se encontrará organizado los productos con sus acciones también (ver, editar y borrar)
