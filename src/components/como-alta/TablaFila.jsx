@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import ProductosContext from "../../contexts/ProductosContext"
 import Swal from "sweetalert2"
+import './TablaFila.scss'
 
 const TablaFila = ({producto}) => {
 
@@ -40,21 +41,21 @@ const TablaFila = ({producto}) => {
 
   return (
     <>
-        <tr>
-            <td>{producto.nombre}</td>
+        <tr className="fila">
+            <td className="fila__nombre">{producto.nombre}</td>
             <td>
-                <img src={producto.foto} alt={producto.foto} style={{width: '40px'}} />
+                <img src={producto.foto} alt={producto.foto} />
             </td>
-            <td>{producto.precio}</td>
+            <td className="fila__precio">{producto.precio}</td>
             <td>{producto.stock}</td>
-            <td>{producto.marca}</td>
+            <td className="fila__marca">{producto.marca}</td>
             <td>{producto.categoria}</td>
-            <td>{producto.descripcion}</td>
-            <td>{producto.envio ? 'si' : 'no' }</td>
-            <td>
-                <button>Ver</button>
-                <button onClick={()=>handleEditar(producto)}>Editar</button>
-                <button onClick={()=>handleEliminar(producto.id)}>Borrar</button>
+            <td className="fila__descripcion" >{producto.descripcion}</td>
+            <td className="fila__envio">{producto.envio ? 'si' : 'no' }</td>
+            <td className="fila__botones">
+                <button className="fila__botonaccion">Ver</button>
+                <button className="fila__botonaccion" onClick={()=>handleEditar(producto)}>Editar</button>
+                <button className="fila__botonaccion" onClick={()=>handleEliminar(producto.id)}>Borrar</button>
             </td>
         </tr>
     </>

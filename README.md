@@ -1691,26 +1691,31 @@ Cómo la tabla es grande y estoy pensando que la página se adapte en celulares,
 #### TablaFila.jsx
 En este componente se encontrará organizado los productos con sus acciones también (ver, editar y borrar)
 ```sh
+import { useContext } from "react"
+import ProductosContext from "../../contexts/ProductosContext"
+import Swal from "sweetalert2"
+import './TablaFila.scss'
+
 #                   ⬇️recibe la prop que viene del componete Tabla.jsx
 const TablaFila = ({producto}) => {
   return (
     <>
         <tr>
         #                 ⬇️uso el nombre correcto que tengo el en db.json para que se pueda ver los detalles del producto
-            <td>{producto.nombre}</td>
-            <td>{producto.precio}</td>
-            <td>{producto.stock}</td>
-            <td>{producto.marca}</td>
-            <td>{producto.categoria}</td>
-            <td>{producto.descripcion}</td>
+            <td className="fila__nombre">{producto.nombre}</td>
             <td>
-                <img src={producto.foto} alt={producto.nombre} style={{width: '40px'}}/>
+                <img src={producto.foto} alt={producto.foto} />
             </td>
-            <td>{producto.envío ? 'si' : 'no'}</td>
-            <td>
-                <button>Ver</button>
-                <button>Editar</button>
-                <button>Borrar</button>
+            <td className="fila__precio">{producto.precio}</td>
+            <td>{producto.stock}</td>
+            <td className="fila__marca">{producto.marca}</td>
+            <td>{producto.categoria}</td>
+            <td className="fila__descripcion" >{producto.descripcion}</td>
+            <td className="fila__envio">{producto.envio ? 'si' : 'no' }</td>
+            <td className="fila__botones">
+                <button className="fila__botonaccion">Ver</button>
+                <button className="fila__botonaccion" onClick={()=>handleEditar(producto)}>Editar</button>
+                <button className="fila__botonaccion" onClick={()=>handleEliminar(producto.id)}>Borrar</button>
             </td>
         </tr>
     </>
@@ -1720,6 +1725,101 @@ const TablaFila = ({producto}) => {
 export default TablaFila
 ```
 * Respecto al ternario donde se encuentra producto.envio ({producto.envio ? 'si' : 'no'}), lo hago porque dentro de este se encuentra un booleano (true o false), React no entiende que esa info es un booleano por lo que en lugar de mostrar true o false, voy a colocar 'si' o 'no', para que el usuario sepa cual tiene envío y cual no.
+
+* #### Estilizo las filas
+Eh ajustado tamaños tanto de imagen como de letras, también a algunas palabras les eh dado grosor. Los botones de las acciones estarán estilizados también, al igual que le eh agregado breakpoints para adaptarlo a celulares y computadores:
+```sh
+@import '../../index.scss';
+
+.fila{
+    font-size: 1.1rem;
+    font-weight: 400;
+
+    &__nombre{
+        font-weight: 900;
+        letter-spacing: 3px;
+    }
+
+    &__precio{
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+    &__marca{
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+    }
+
+    &__descripcion{
+        font-weight: 200;
+    }
+
+    &__envio{
+        color: $color-3;
+        font-weight: bold;
+        letter-spacing: 5px;
+    }
+
+    &__botones{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100%;
+    }
+
+    &__botonaccion{
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: $color-3;
+        cursor: pointer;
+        color: $color-4;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+    
+    img{
+        width: 8rem;
+    }
+
+    @media screen and (min-width: 768px) {
+        &{
+            font-size: 1.2rem;
+        }
+         img{
+            width: 7.5rem;
+            margin: auto;
+         }
+    }
+
+    @media screen and (min-width: 1200px) {
+        &{
+            font-size: 1.4rem;
+        }
+
+        &__botones{
+            gap: 20px;
+        }
+        &__botonaccion{
+            font-size: 1.3rem;
+        }
+        &__botonaccion:hover{
+            box-shadow: 3px 5px 10px black;
+        }
+
+        img{
+            width: 9.5rem;
+            border-radius: 10px;
+        }
+    }
+
+    @media screen and (min-width: 1400px) {
+        &{
+            font-size: 1.5rem;
+        }
+    }
+}
+```
+
 
 * ### Elimino productos de la tabla
     * En cada productos se encuentran acciones, una de ellas es eliminar, a ese botón de eliminar lo pondré a funcionar, se eliminará el producto de la tabla y a la vez en mi back:
@@ -1748,10 +1848,6 @@ Esta función se va a encargar de eliminar el producto de la APIy luego va a act
     * Este filtra la lista de productos en el estado global, eliminando el producto con el id dado
     * Finalmente voy a actualizar el estado con setProductos(), dejando fuera el producto eliminado
 ```sh
-import { useContext } from "react"
-import ProductosContext from "../../contexts/ProductosContext"
-import Swal from "sweetalert2"
-
 const TablaFila = ({producto}) => {
   
   # Uso el contexto que tengo en ProductosContexto
