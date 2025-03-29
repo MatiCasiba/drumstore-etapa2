@@ -2581,6 +2581,106 @@ handleComprar() se ejecuta cuando el usuario slecciona el botón de comprar, lla
 <button onClick={handleComprar}>Comprar</button>
 
 ```
+### Detalles del producto
+Eh agregado un archivo ProductoDetalle.jsx, dentro de este mostraré la data del producto, la imagen, la categoría, el nombre, la marca, el precio y su descripcion.
+```sh
+import { useEffect, useState } from "react"
+import { useParams } from "react-router"
+import './ProductoDetalle.scss'
+
+const ProductoDetalle = () => {
+
+  const {id} = useParams()
+  const [productoDetalle, setProductoDetalle] = useState(null)
+  const urlMockapi = 'https://67d47c1dd2c7857431edce6d.mockapi.io/apis/v1/producto/'
+
+  useEffect(() => {
+    getOne(id)
+  }, [])
+
+  # Funcion para obtener los datos del producto
+  const getOne = async (id) => {
+    const urlGetOne = urlMockapi + id # Concateno la url base con el id, fomando la url completa para obtener un producto
+
+
+    try {
+        const res = await fetch(urlGetOne)
+        # uso fetch para hacer una solicitud GET a la API
+        # await espera la respuesta antes de seguir
+
+        if(!res.ok){
+            throw new Error('No se pudo obtener el producto')
+        }
+        # Si la respuesta no tiene exito, res es falso, lanza un error con un mensaje
+
+        # Hago una conversion de datos a JSON
+        const data = await res.json() # convierto la respuesta en un json
+        setProductoDetalle(data) # guado los datos del producto en productoDetalle con el modificador de estado
+
+    } catch (error) {
+        console.error(error)
+    }
+  }
+  
+
+  return (
+    <div className="producto-detalle">
+        <h1 className="producto-detalle__titulo-producto">Acerca del producto</h1>
+
+        {
+            productoDetalle ?
+                (
+                    <div className="producto-detalle__contenedor-prod">
+                        
+                        <div className="producto-detalle__contenedor-image">
+                            <img src={`/${productoDetalle.foto}`} alt={productoDetalle.foto} />   
+                        </div>
+
+                        <div className="producto-detalle__contenedor-detalle">
+                            <h2>{productoDetalle.categoria}</h2>
+                            <h3>{productoDetalle.nombre}</h3>
+                            <p className="producto-detalle__marca">{productoDetalle.marca}</p>
+                        </div>
+
+                        <div className="producto-detalle__contenedor-detalle">
+                            <p className="producto-detalle__precio">US$ {productoDetalle.precio}</p>
+                            <p className="producto-detalle__descripcion">{productoDetalle.descripcion}</p>
+                        </div>
+                    </div>
+                ) : (
+                    <p> CARGANDO...</p>
+                )
+        }
+        # lo que hará este ternario es mostrarme el producto con sus detalles o sino queda cargando hasta obtenerlo
+
+    </div>
+  )
+}
+
+export default ProductoDetalle
+```
+* Obteniendo el id de la url:
+```sh
+const {id} = useParams()
+```
+useParams() es un hook de React Router que sirve para extraer los parámetros de la url, en este caso obtengo el parámetro id de la ruta /alta/detalle/:id, lo que significa si visitás, ejemplo: /alta/detalle/3, id tiene el valor 3
+
+* Estadi para almacenar el producto:
+```sh
+const [productoDetalle, setProductoDetalle] = useState(null)
+```
+Se crea un estado local productoDetalle, que inicialmente es null, setProductoDetalle se usará para actualizar le estado con los del producto
+
+* useEffect para llamar a la API cuando el componente se monta
+```sh
+useEffect(() => {
+  getOne(id)
+}, [])
+
+```
+useEffect() se ejecuta cuando el componente se monta Llama a la función getOne(id), que obtiene los datos del producto específico. Se pasa un array vacío [], lo que significa que se ejecuta solo una vez, cuando el componente se renderiza
+
+
 
 
 

@@ -2,10 +2,13 @@ import { useContext } from "react"
 import ProductosContext from "../../contexts/ProductosContext"
 import Swal from "sweetalert2"
 import './TablaFila.scss'
+import { useNavigate } from "react-router"
+
 
 const TablaFila = ({producto}) => {
 
   const {eliminarProductoContex, setProductoAEditar} = useContext(ProductosContext)
+  const navigate = useNavigate() // me devuelve una referencia de una función
 
   const handleEliminar = (id)=> {
     Swal.fire({
@@ -39,6 +42,10 @@ const TablaFila = ({producto}) => {
     setProductoAEditar(producto)
   }
 
+  const handleVer = (id) => {
+    navigate(`/alta/detalle/${id}`)
+  }
+
   return (
     <>
         <tr className="fila">
@@ -50,10 +57,10 @@ const TablaFila = ({producto}) => {
             <td>{producto.stock}</td>
             <td className="fila__marca">{producto.marca}</td>
             <td>{producto.categoria}</td>
-            <td className="fila__descripcion" >{producto.descripcion}</td>
+            <td className="fila__descripcion" >...</td>
             <td className="fila__envio">{producto.envio ? 'si' : 'no' }</td>
             <td className="fila__botones">
-                <button className="fila__botonaccion">Ver</button>
+                <button className="fila__botonaccion" onClick={() => handleVer(producto.id)}>Ver</button>
                 <button className="fila__botonaccion" onClick={()=>handleEditar(producto)}>Editar</button>
                 <button className="fila__botonaccion" onClick={()=>handleEliminar(producto.id)}>Borrar</button>
             </td>
