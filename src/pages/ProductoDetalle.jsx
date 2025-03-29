@@ -42,20 +42,22 @@ const ProductoDetalle = () => {
                             <img src={`/${productoDetalle.foto}`} alt={productoDetalle.foto} />   
                         </div>
 
-                        <div className="producto-detalle__contenedor-detalle">
-                            <h2>{productoDetalle.categoria}</h2>
-                            <h3>{productoDetalle.nombre}</h3>
-                            <p className="producto-detalle__marca">{productoDetalle.marca}</p>
-                        </div>
-
-                        <div className="producto-detalle__contenedor-detalle">
-                            <p className="producto-detalle__precio">US$ {productoDetalle.precio}</p>
-                            <p className="producto-detalle__descripcion">{productoDetalle.descripcion}</p>
+                        <div className="producto-detalle__contenedor-info">
+                            <div className="producto-detalle__contenedor-detalle">
+                                <h2>{productoDetalle.categoria}</h2>
+                                <h3>{productoDetalle.nombre}</h3>
+                                <p className="producto-detalle__marca">{productoDetalle.marca}</p>
+                            </div>
+                            <div className="producto-detalle__contenedor-detalle">
+                                <p className="producto-detalle__precio">US$ {productoDetalle.precio}</p>
+                                <p className="producto-detalle__descripcion">{productoDetalle.descripcion}</p>
+                            </div>
                         </div>
                     </div>
                 ) : (
                     <p> CARGANDO...</p>
                 )
+
         }
     </div>
   )
