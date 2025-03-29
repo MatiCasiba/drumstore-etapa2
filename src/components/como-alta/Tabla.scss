@@ -1,12 +1,28 @@
-table.tabla-alta {
+@import '../../index.scss';
+
+.tabla-contenedor{
+    width: 100%;
+    overflow-x: auto; // me permite el scroll horizontalmente
+}
+
+table.table-alta{
+    width: 95%;
+    min-width: 316px; // me aseguro que la tabla no se achique menos de esto
     border: 1px solid black;
     border-collapse: collapse;
-    width: 95%;
     margin: 1px auto;
+    background-color: $color-4;
 
     th, td{
         border: 1px solid black;
         padding: 8px;
         text-align: left;
+        white-space: nowrap; // evito que el contenido se rompa
+    }
+
+    th{
+        background-color: $color-3;
+        color: $color-4;
+        font-weight: bold;
     }
 }
