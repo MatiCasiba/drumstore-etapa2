@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import CarritoContext from '../contexts/CarritoContex'
+import './ItemCarrito.scss'
 
 const ItemCarrito = ({producto}) => {
 
@@ -11,15 +12,15 @@ const ItemCarrito = ({producto}) => {
     }
 
   return (
-    <tr>
-        <td>
-            <img src={producto.foto} alt={producto.nombre} width="50px" />
+    <tr className='tabla-items'>
+        <td className='tabla-items__item'>
+            <img className='tabla-items__foto-prod' src={producto.foto} alt={producto.nombre} />
         </td>
-        <td>{producto.nombre}</td>
-        <td>{producto.cantidad}</td>
-        <td>{producto.precio}</td>
-        <td>
-            <button onClick={() => handleEliminar(producto.id)}>Eliminar</button>
+        <td className='tabla-items__item'>{producto.nombre}</td>
+        <td className='tabla-items__item'>{producto.cantidad}</td>
+        <td className='tabla-items__item'>US$ {producto.precio}</td>
+        <td className='tabla-items__item'>
+            <button className='tabla-items__item-boton' onClick={() => handleEliminar(producto.id)}>Eliminar</button>
         </td>
     </tr>
   )

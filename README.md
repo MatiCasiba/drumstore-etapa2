@@ -889,7 +889,7 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     }
 }
 
-/* MENU TOOGLE */
+# MENU TOOGLE 
 
 .menu-toogle{
     display: block;
@@ -2336,6 +2336,7 @@ Este componente representa una fila de producto dentro del carrito:
 ```sh
 import React, { useContext } from 'react'
 import CarritoContext from '../contexts/CarritoContex'
+import './ItemCarrito.scss'
 
 const ItemCarrito = ({producto}) => {
 
@@ -2343,25 +2344,94 @@ const ItemCarrito = ({producto}) => {
 
     const handleEliminar = (id) => {
         console.log('Eliminando el producto...', id)
-        //eliminarProductoDelCarritoContext(id)
+        eliminarProductoDelCarritoContext(id)
     }
 
   return (
-    <tr>
-        <td>
-            <img src={producto.foto} alt={producto.nombre} width="50px" />
+    <tr className='tabla-items'>
+        <td className='tabla-items__item'>
+            <img className='tabla-items__foto-prod' src={producto.foto} alt={producto.nombre} />
         </td>
-        <td>{producto.nombre}</td>
-        <td>{producto.cantidad}</td>
-        <td>{producto.precio}</td>
-        <td>
-            <button onClick={() => handleEliminar(producto.id)}>Eliminar</button>
+        <td className='tabla-items__item'>{producto.nombre}</td>
+        <td className='tabla-items__item'>{producto.cantidad}</td>
+        <td className='tabla-items__item'>US$ {producto.precio}</td>
+        <td className='tabla-items__item'>
+            <button className='tabla-items__item-boton' onClick={() => handleEliminar(producto.id)}>Eliminar</button>
         </td>
     </tr>
   )
 }
 
 export default ItemCarrito
+```
+
+#### Estilizo los items del carrito
+Los productos que compre el usuario, serán agregados a una tabla en la parte del carrito, trabajaré ajustando tamaños tanto en la imagen como en la letra, el botón de eliminar que contiene este, también fue estilizado, a partir de 1200px se comportará de misma manera que los botones de vaciar y comprar:
+```sh
+@import '../index.scss';
+
+.tabla-items{
+    font-size: 1.1rem;
+    font-weight: 500;
+
+    &__item{
+        font-size: 1.1rem;
+    }
+
+    &__foto-prod{
+        width: 100px;
+    }
+
+    &__item-boton{
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.8rem;
+        margin-top: auto; 
+        display: block;
+        text-align: center;
+        padding: 10px;
+        background-color: $color-1;
+        color: $color-3;
+        border-radius: 5px;
+    }
+
+    @media screen and (min-width: 768px) {
+        &__item{
+            font-size: 1.15rem;
+        }
+
+        &__foto-prod{
+            width: 130px;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        &__item{
+            font-size: 1.25rem;
+        }
+
+        &__foto-prod{
+            width: 180px;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        &__item{
+            font-size: 1.3rem;
+        }
+
+        &__foto-prod{
+            font-size: 200px;
+        }
+
+        &__item-boton:hover{
+            box-shadow: 0 0 10px 2px $color-3;
+            transform: scale(1.1);
+            transition: transform 0.2s ease-in-out;
+        }
+    }
+
+}
 ```
 
 
