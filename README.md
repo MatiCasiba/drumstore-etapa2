@@ -2674,6 +2674,83 @@ handleComprar() se ejecuta cuando el usuario slecciona el botón de comprar, lla
 <button onClick={handleComprar}>Comprar</button>
 
 ```
+
+#### Estilizo el ListadoCarrito.jsx
+El contenido que se encuentra dentro de este archivo (src/components/ListadoCarrito.jsx), lo voy a estilizar, también se encuentra en la misma ubicación (src/components/), los códigos de este estilo también se encuentran en un archivo ListadoCarrito.scss:
+```sh
+@import '../index.scss';
+
+table.tabla-carrito {
+    border-collapse: collapse;
+    width: 95%;
+    margin: 1rem auto;
+
+    th, td {
+        border: 1px solid $color-2;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: $color-3;
+    }
+
+    @media screen and (min-width: 992px) {
+        th{
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        th{
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+        }
+    }
+
+}
+
+.acciones-carrito{
+    display: flex;
+    justify-content: center; # centro los dos botones
+    gap: 20px; # espacio entre los elementos hijos de este
+
+    &__botones{
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.8rem;
+        margin-top: auto; 
+        display: block;
+        text-align: center;
+        padding: 10px;
+        background-color: $color-1;
+        color: $color-3;
+        border-radius: 5px;
+    }
+
+    @media screen and (min-width: 992px) {
+        &{
+            gap: 30px;
+        }
+        &__botones{
+            font-size: 1rem;
+        }
+    }
+
+    @media screen and (min-width: 1200px) { # para computadoras, los usuarios cuando se paren sobre los dos botones existentes, tendrá una animación
+        &__botones:hover{
+            box-shadow: 0 0 10px 2px $color-3;
+            transform: scale(1.1);
+            transition: transform 0.2s ease-in-out;
+        }
+    }
+}
+```
+Tabajé con sombras a color, tamaños y animación.
+
+
 ### Detalles del producto
 Eh agregado un archivo ProductoDetalle.jsx, dentro de este mostraré la data del producto, la imagen, la categoría, el nombre, la marca, el precio y su descripcion.
 ```sh

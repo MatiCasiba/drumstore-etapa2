@@ -48,12 +48,12 @@ const ListadoCarrito = () => {
                     }
                 </tbody>
             </table>
-            <hr />
+ 
             {!carrito.length <= 0 && (
-                <>
-                    <button onClick={handleLimpiarCarrito}>Vaciar Carrito</button>
-                    <button onClick={handleComprar}>Comprar</button>
-                </>
+                <div className="acciones-carrito">
+                    <button className="acciones-carrito__botones" onClick={handleLimpiarCarrito}>Vaciar</button>
+                    <button className="acciones-carrito__botones" onClick={handleComprar}>Comprar</button>
+                </div>
             )
             }
         </>
