@@ -184,9 +184,24 @@ Dentro de la carpeta componentes tendré los componentes Card.jsx Footer.jsx Hea
 ### Card.jsx
 En Card.jsx estará el código de las tarjetas, osea armaré toda la tarjeta dentro de este componente:
 ```sh
+import { useContext } from 'react'
 import './Card.scss'
+import CarritoContext from '../contexts/CarritoContex'
+import { useNavigate } from 'react-router'
 
 const Card = ({producto}) => {
+
+    const {agregarProductoAlCarritoContext} = useContext(CarritoContext)
+    const navigate = useNavigate()
+
+    const handleAgregar = (producto) => {
+        agregarProductoAlCarritoContext(producto)
+    }
+
+    const handleVerMas = (id) => {
+        navigate(`/alta/detalle/${id}`) # Navega a la vista de detalles del producto
+    }
+
     return (
         <>
             <div className="card">
@@ -196,11 +211,24 @@ const Card = ({producto}) => {
                     </div>
                     <div className="card__content">
                         <h2 className="card__heading">{producto.nombre}</h2>
+                        <p className='card__precios'><b>US$ {producto.precio}</b></p>
                         <div className="card__description">
-                            <p><b>{producto.precio}</b></p>
-                            <p>{producto.descripcion}</p>
+                            <div className="card__botones-acciones">
+                                <button
+                                    className="card__boton"
+                                    onClick={()=>handleAgregar(producto)}
+                                >
+                                    COMPRAR
+                                </button>
+                                <button 
+                                    className='card__boton'
+                                    onClick={() => handleVerMas(producto.id)}
+                                >
+                                    VER MAS
+                                </button>
+                            </div>
                         </div>
-                        <a className="card__boton" href="#">COMPRAR</a>
+                        
                     </div>
                 </article>
             </div>
@@ -289,9 +317,20 @@ main{
         font-size: 1.2rem;
     }
     &__description{
-        margin-top: 5px;
         width: 250px;
         font-size: 0.9rem;
+        align-items: center;
+    }
+    &__precios{
+        margin-top: 8px;
+        letter-spacing: 5px;
+        text-align: center;
+    }
+
+    &__botones-acciones{
+        display: flex;
+        gap: 5px;
+        justify-content: center;
     }
 
     &__boton {
@@ -403,7 +442,6 @@ main{
     
         &:hover,
         &:focus {
-            # radianes 2pi, gradianes 400, decimales 360 grdos, vueltas 1trun
             transform: scale(1) skew(0deg) rotate(2deg);
             transform-origin: bottom;
             box-shadow: 0 7px 8px 0 rgba(0, 0, 0, 0.5);
@@ -411,6 +449,26 @@ main{
     }
     
 }
+```
+#### Muestro los detalles del producto
+Ahora el usuario puede ver más detalle sobre el producto, lo mismo que se puede hacer en el botón de ver en la página de alta, también se puede desde inicio. Para lograrlo use un useNavigate() y eh creado un handleVerMas()
+```sh
+# Card.jsx
+const navigate = useNavigate()
+
+const handleVerMas = (id) => {
+    navigate(`/alta/detalle/${id}`) # Navega a la vista de detalles del producto
+}
+```
+Llamo a la función en un botón "ver mas"
+```sh
+# Card.jsx
+<button
+    className="card__boton"
+    onClick={()=>handleAgregar(producto)}
+>
+    COMPRAR
+</button>
 ```
 
 ### Header.jsx

@@ -67,9 +67,20 @@ main{
         font-size: 1.2rem;
     }
     &__description{
-        margin-top: 5px;
         width: 250px;
         font-size: 0.9rem;
+        align-items: center;
+    }
+    &__precios{
+        margin-top: 8px;
+        letter-spacing: 5px;
+        text-align: center;
+    }
+
+    &__botones-acciones{
+        display: flex;
+        gap: 5px;
+        justify-content: center;
     }
 
     &__boton {
