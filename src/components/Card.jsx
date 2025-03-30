@@ -13,7 +13,7 @@ const Card = ({producto}) => {
     }
 
     const handleVerMas = (id) => {
-        navigate(`/alta/detalle/${id}`) // Navega a la vista de detalles del producto
+        navigate(`/alta/detalle/${id}`)
     }
 
     return (

@@ -1,5 +1,6 @@
 import ListadoCarrito from "../components/ListadoCarrito"
 import useTitulo from "../hooks/useTitulo"
+import './Carrito.scss'
 
 const Carrito = () => {
 
@@ -7,10 +8,10 @@ const Carrito = () => {
 
   return (
     <>
-      <h1>Mis compras</h1>
-      <hr />
-
-      <ListadoCarrito />
+      <div className="contenedor-compra">
+        <h1>Mis compras</h1>
+        <ListadoCarrito />
+      </div>
 
     </>
   )

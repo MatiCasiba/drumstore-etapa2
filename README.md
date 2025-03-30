@@ -2496,6 +2496,7 @@ Carrito va almacenar los productos que el usario decida comprar:
 ```sh
 import ListadoCarrito from "../components/ListadoCarrito"
 import useTitulo from "../hooks/useTitulo"
+import './Carrito.scss'
 
 const Carrito = () => {
 
@@ -2503,16 +2504,50 @@ const Carrito = () => {
 
   return (
     <>
-      <h1>Mis compras</h1>
-      <hr />
-
-      <ListadoCarrito />
+      <div className="contenedor-compra">
+        <h1>Mis compras</h1>
+        <ListadoCarrito />
+      </div>
 
     </>
   )
 }
 
 export default Carrito
+```
+
+#### Ajusto tamaños en Carro.jsx
+Si bien todavía no estilizo la tabla de compras dentro de este carro, pero voy a ajustar espacios, color y tamaño en el titulo:
+```sh
+# Carrito.scss
+@import '../index.scss';
+
+.contenedor-compra{
+    padding: 15px;
+
+    h1{
+        font-size: 1.4rem;
+        color: $color-1;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+    }
+
+    @media screen and (min-width: 768px) {
+        h1{
+            font-size: 1.6rem;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        &{
+            max-width: 1100px;
+            margin: 0 auto; # centro el contenidod entro de carrito
+        }
+        h1{
+            font-size: 1.9rem;
+        }
+    }
+}
 ```
 
 #### Accediendo a la sección de carrito
