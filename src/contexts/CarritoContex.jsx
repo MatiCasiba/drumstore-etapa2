@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useMemo } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { peticionesHttp } from "../helpers/peticiones-http";
 
@@ -13,13 +13,11 @@ const CarritoProvider = ({children}) => {
 
     function elProductoEstaEnElCarrito(producto){
         const nuevoArray = carrito.filter(prod => prod.id === producto.id)
-        // 1-> El producto ya etsa en el carrito
-        // 0-> no esta en el carrito
         return nuevoArray.length
     }
 
     function obtenerProductoDeCarrito(producto){
-        // sie encuentra el producto lo retorna
+        
         return carrito.find(prod => prod.id === producto.id)
     }
 
@@ -65,12 +63,21 @@ const CarritoProvider = ({children}) => {
         }
     }
 
+    const calcularTotalCarritoContext = useMemo(() => {
+        return carrito.reduce((total, producto) => {
+          const precio = Number(producto.precio) || 0
+          const cantidad = Number(producto.cantidad) || 0
+          return total + (precio * cantidad)
+        }, 0)
+      }, [carrito])
+    
     const data = {
         agregarProductoAlCarritoContext,
         eliminarProductoDelCarritoContext,
         limpiarCarritoContext,
         guardarCarritoBackendContext,
-        carrito
+        carrito,
+        calcularTotalCarritoContext
     }
 
     return <CarritoContext.Provider value={data}>{children}</CarritoContext.Provider>

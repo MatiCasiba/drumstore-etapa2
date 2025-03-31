@@ -5,12 +5,13 @@ import './ListadoCarrito.scss'
 
 const ListadoCarrito = () => {
 
-    const { 
-        carrito, 
-        limpiarCarritoContext, 
-        guardarCarritoBackendContext } = useContext(CarritoContext)
-    
-        console.log(carrito);
+    const {
+        carrito,
+        limpiarCarritoContext,
+        guardarCarritoBackendContext,
+        calcularTotalCarritoContext } = useContext(CarritoContext)
+
+    console.log("Carrito actual", carrito);
 
     const handleComprar = () => {
         console.log('Comprando...')
@@ -21,6 +22,7 @@ const ListadoCarrito = () => {
         console.log('Vaciando carrito...')
         limpiarCarritoContext()
     }
+
 
     return (
         <>
@@ -38,7 +40,7 @@ const ListadoCarrito = () => {
                     {
                         carrito.length <= 0 ? (
                             <tr>
-                                <td colSpan={5} style={{ textAlign: 'center' }}>No hay productos</td>
+                                <td colSpan={5}>No hay productos</td>
                             </tr>
                         ) : (
                             carrito.map((producto, idx) => (
@@ -48,7 +50,8 @@ const ListadoCarrito = () => {
                     }
                 </tbody>
             </table>
- 
+            <h2 className="total-carrito">Total: US$ {calcularTotalCarritoContext.toFixed(2)}</h2>
+
             {!carrito.length <= 0 && (
                 <div className="acciones-carrito">
                     <button className="acciones-carrito__botones" onClick={handleLimpiarCarrito}>Vaciar</button>
@@ -56,6 +59,7 @@ const ListadoCarrito = () => {
                 </div>
             )
             }
+            
         </>
     )
 }

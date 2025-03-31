@@ -3288,6 +3288,85 @@ export {CarritoProvider}
 export default CarritoContext
 ```
 
+### Calculo los productos del carrito
+Eh armado una función para calcular el precio total de los productos que se encuentran en carrito. Para esto eh armado la funcion en CarritoContext.jsx y este lo uso en ListadoCarrito.jsx:
+```sh
+import { createContext, useMemo } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { peticionesHttp } from "../helpers/peticiones-http";
+
+const CarritoContext = createContext()
+
+const CarritoProvider = ({children}) => {
+    const urlCarrito= import.meta.env.VITE_BACKEND_CARRITO
+
+    const [agregarAlCarrito, eliminarDelCarrito, limpiarCarrito, carrito] = useLocalStorage('carrito', [])
+
+    function elProductoEstaEnElCarrito(producto){
+        ...
+    }
+
+    function obtenerProductoDeCarrito(producto){
+        ...
+    }
+
+    const agregarProductoAlCarritoContext = (producto) => {
+        ...
+    }
+
+    const eliminarProductoDelCarritoContext = (id) => {
+        eliminarDelCarrito(id)
+    }
+
+    const limpiarCarritoContext = () => {
+        limpiarCarrito()
+    }
+
+    const guardarCarritoBackendContext = async () => {
+        
+       ...
+    }
+
+    # FUNCION PARA CALCULAR EL TOTAL DE LOS PRODUCTOS DEL CARRITO
+    const calcularTotalCarritoContext = useMemo(() => {
+        return carrito.reduce((total, producto) => {
+          const precio = Number(producto.precio) || 0
+          const cantidad = Number(producto.cantidad) || 0
+          return total + (precio * cantidad)
+        }, 0)
+      }, [carrito])
+    
+    const data = {
+        agregarProductoAlCarritoContext,
+        eliminarProductoDelCarritoContext,
+        limpiarCarritoContext,
+        guardarCarritoBackendContext,
+        carrito,
+        calcularTotalCarritoContext 
+    }
+
+    return <CarritoContext.Provider value={data}>{children}</CarritoContext.Provider>
+
+}
+
+
+export {CarritoProvider}
+export default CarritoContext
+```
+* Use el useMemo para optimizar el cálculo y evito que se recalcule de forma inncesearia
+* reduce: recorre el arrya carrito, sumando (precio * cantidad) de cada producto
+* Number(producto.precio) || 0 asegura que el precio sea el número válido.
+* [carritoa] en useMemo significa que se va a recalcular cuandon carrito cambie
+* calcularTotalCarritoContext se lo paso a ListadoCarrito.jsx:
+```sh
+const { calcularTotalCarritoContext } = useContext(CarritoContext)
+```
+A este lo voy a mostrar en pantalla:
+```sh
+<h2 className="total-carrito">Total: US$ {calcularTotalCarritoContext.toFixed(2)}</h2>
+```
+Se muestra el total con toFixed(2), este lo uso para asegurarme que tenga 2 decimales, cuando carrito cambia (porque el usuario agrega o elimina productos), calcularTotalCarritoContex va a recalcular automáticamente
+
 ## Helpers
 Dentro de la carpeta helper, tendré un archivo peticiones-http.js, con el motivo de llamar a esta función y automáticamente le voy a pasar la url y las opciones:
 ```sh
