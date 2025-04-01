@@ -3054,7 +3054,7 @@ Notarás que como las demás cosas, esto también se comporta de manera diferent
 ``` 
 Juego con tamaños de letras, espacios, sombras, en tablet notarás que verás sombra tanto en la imagen como en el recuadro del producto.
 
-## Contacto.jsx
+### Contacto.jsx
 En contacto está el formulario para contactar a la tienda, junto con la ubicación en el mapa
 ```sh
 import useTitulo from "../hooks/useTitulo";
@@ -3264,6 +3264,147 @@ textarea{
         }
         
     }
+}
+```
+
+### Nosotros.jsx
+Armé la página de Nosotros, donde se habla sobre la tienda, contendrá texto y imágenes:
+```sh
+import useTitulo from "../hooks/useTitulo"
+import './Nosotros.scss'
+
+const Nosotros = () => {
+
+  useTitulo('Nosotros')
+
+  return (
+    <>
+      <main>
+        <div className="info">
+            <h1 className="info__titulo">Sobre nosotros</h1>
+            <p className="info__textos">Hemos estado atendiendo a bateristas desde 1987 en el corazón de Amberes; Drumstore no necesita presentación. En estas páginas encontrarás un resumen de los productos y servicios que ofrecemos.</p>
+            <p className="info__textos">Además de las numerosas marcas con las que trabajamos, también puedes contactarnos para reparaciones de baterías, backline y alquileres.</p>
+            <img className="info__image-drummers" src="../../../drumers/drumer.webp" alt="imagen de baterista" />
+            ...
+        </div>
+      </main>
+    </>
+  )
+}
+
+export default Nosotros
+```
+* Estilizo Nosotros.jsx: las imágenes de esta página tendrán una animación de agrandamiento cuando hagas scroll hacia abajo, y cuando haga scroll hacia arriba, se achicarán
+```sh
+@import '../index.scss';
+
+img{
+    width: 100%;
+    height: auto;
+}
+
+@keyframes show {
+    from{
+        opacity: 0;
+        scale: 25%;
+    }
+    to{
+        opacity: 1;
+        scale: 100%;
+    }
+}
+
+.info{
+    margin: 0 50px 0 50px;
+
+    &__titulo{
+        padding: 10px;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        color: $color-3;
+        text-shadow: 3px 3px 4px $color-1;
+    }
+    
+    &__textos{
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-weight: 500;
+    }
+
+    &__image-drummers{
+        
+        view-timeline-name: --image;
+        view-timeline-axis: --block;
+
+        animation-timeline: --image;
+        animation-name: show;
+
+        animation-range: entry 25% cover 60%;
+        animation-fill-mode: both;
+
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    @media screen and (min-width: 768px){
+        &__titulo{
+            margin-left: 15%;
+        }
+        &__textos{
+            max-width: 70%;
+            font-size: 1.8rem;
+            margin: 0 auto;
+        }
+
+        &__image-drummers{
+            display: block;
+            margin: 0 auto;
+            max-width: 70%;
+        }
+    }
+
+    @media screen and (min-width: 992px){
+        &__textos{
+            font-size: 1.5rem;
+        }
+    }
+
+    @media screen and (min-width: 1200px){
+        
+        &__titulo{
+            text-align: center;
+            margin: 0;
+            margin-bottom: 50px;
+        }
+        
+        &__textos{
+            font-size: 1.4rem;
+            max-width: 60%;
+        }
+
+        &__image-drummers{
+            max-width: 60%;
+        }
+    }
+
+    @media screen and (min-width: 1400px){
+        &{
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        &__titulo{
+            text-align: center;
+            font-size: 3rem;
+        }
+        &__textos{
+            font-size: 1.4rem;
+        }
+    }
+
+
 }
 ```
 
