@@ -3054,6 +3054,218 @@ Notarás que como las demás cosas, esto también se comporta de manera diferent
 ``` 
 Juego con tamaños de letras, espacios, sombras, en tablet notarás que verás sombra tanto en la imagen como en el recuadro del producto.
 
+## Contacto.jsx
+En contacto está el formulario para contactar a la tienda, junto con la ubicación en el mapa
+```sh
+import useTitulo from "../hooks/useTitulo";
+import "./Contacto.scss";
+
+const Contacto = () => {
+  useTitulo("Contacto");
+
+  return (
+    <>
+      <main>
+        <div className="formulario">
+          <form action="#" method="post">
+            <div className="formulario__contenedor-datos">
+              <h1 className="formulario__titulo">Contáctanos</h1>
+              <div className="formulario__datos">
+                <label className="formulario__labels" htmlFor="nombre">Nombre *</label>
+                <input type="text" id="nombre" className="formulario__entrada-datos" />
+              </div>
+              <div className="formulario__datos">
+                <label className="formulario__labels" htmlFor="apellido">Apellido *</label>
+                <input type="text" id="apellido" className="formulario__entrada-datos" />
+              </div>
+              <div className="formulario__datos">
+                <label className="formulario__labels" htmlFor="email">Email *</label>
+                <input type="email" id="email" className="formulario__entrada-datos" />
+              </div>
+              <div className="formulario__datos">
+                <label className="formulario__labels" htmlFor="mensaje">Escríbenos un mensaje:</label>
+                <textarea id="mensaje" className="formulario__entrada-datos"></textarea>
+              </div>
+              <div className="formulario__datos">
+                <button className="formulario__boton" type="submit">Enviar</button>
+              </div>
+            </div>
+
+            <div className="formulario__contenedor-map">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26272.95191432217!2d-58.40476192424162!3d-34.60115252873014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac630121623%3A0x53386f2ac88991a9!2sTeatro%20Col%C3%B3n!5e0!3m2!1ses-419!2sar!4v1738586641675!5m2!1ses-419!2sar"
+                width="400"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </form>
+        </div>
+      </main>
+    </>
+  );
+};
+
+export default Contacto;
+
+```
+* Estilizo Contacto.jsx: eh creado un Archivo Contacto.scss para estilizar la página de contacto, actuará de manera diferente las posiciones cuando se amplia la pantalla (trabajé con Breakpoints)
+```sh
+@import '../index.scss';
+
+textarea{
+    resize: vertical;
+    height: 80px;
+    max-height: 200px;
+}
+
+.formulario {
+    background-color: $color-4;
+    font-size: 1.2rem;
+    height: 100%;
+    padding: 40px;
+
+    &__titulo {
+        font-weight: 900;
+        color: $color-3;
+        text-align: center;
+        text-shadow: 2px 3px 1px $color-2;
+        border-radius: 20px;
+        padding: 5px;
+        margin: 15px 15px 45px 15px;
+    }
+
+    &__labels{
+        margin-top: 20px;
+        letter-spacing: 2px;
+        font-weight: 700;
+    }
+    
+    &__datos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__entrada-datos {
+        width: 70%;
+        padding: 4px;
+        border-left: none;
+        border-top: none;
+        border-right: none;
+        background-color: $color-4;
+    }
+
+    &__boton {
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: $color-3;
+        cursor: pointer;
+    }
+
+    &__contenedor-map {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    iframe {
+        width: 100%;
+    }
+
+    @media screen and (min-width: 768px) {
+
+        &{
+            font-size: 1.5rem;
+        }
+
+        &__labels{
+            font-weight: 600
+        }
+
+        &__entrada-datos {
+            width: 50%;
+        }
+
+        iframe{
+            width: 70%;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 10px; 
+        }
+
+        &__contenedor-datos {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        &__contenedor-map {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        &__entrada-datos {
+            width: 70%;
+            font-size: 1.1rem;
+        }
+
+        &__boton{
+            font-size: 1.1rem;
+        }
+        &__boton:hover{
+            box-shadow: 3px 5px 10px black;
+        }
+
+        iframe {
+            width: 100%;
+            max-width: 500px;
+            height: 580px;
+        }
+    }
+
+    @media screen and (min-width: 1400px){
+        &{
+            display: contents;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        form{
+            max-width: 1300px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 0 auto;
+        }
+
+        &__entrada-datos{
+            padding: 8px;
+            font-size: 1.2rem;
+        }
+
+        iframe{
+            height: 600px;
+        }
+        
+    }
+}
+```
 
 
 ## Hooks
