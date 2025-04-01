@@ -3720,6 +3720,47 @@ A este lo voy a mostrar en pantalla:
 ```
 Se muestra el total con toFixed(2), este lo uso para asegurarme que tenga 2 decimales, cuando carrito cambia (porque el usuario agrega o elimina productos), calcularTotalCarritoContex va a recalcular automáticamente
 
+### Muestro la cantidad de productos
+Dentro de la página del carrito, voy a mostrar la cantidad de productos que contiene el carro. Armé una función en CarritoContext.jsx para luego usarlo en Carrito.jsx
+```sh
+import { createContext, useMemo } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { peticionesHttp } from "../helpers/peticiones-http";
+
+// ! Creación del contexto
+const CarritoContext = createContext()
+
+// ! Armado del provider
+const CarritoProvider = ({children}) => {
+    ...
+    
+    const contarProductosCarritoContext = useMemo(() => {
+        return carrito.reduce((total, producto) => total + (producto.cantidad || 0), 0);
+        # uso reduce para recorrer el arrya carrito y acumular la cantidad de productos, total es el acumulador, este comienza en 0
+        # producto.cantidad || 0 -> si cantidad no está definida o es null, usa 0
+        # sumo producto.cantidad al total en cada iteración
+
+    }, [carrito]);
+    
+    const data = {
+        agregarProductoAlCarritoContext,
+        eliminarProductoDelCarritoContext,
+        limpiarCarritoContext,
+        guardarCarritoBackendContext,
+        carrito,
+        calcularTotalCarritoContext,
+        contarProductosCarritoContext
+    }
+
+    return <CarritoContext.Provider value={data}>{children}</CarritoContext.Provider>
+
+}
+
+export {CarritoProvider}
+export default CarritoContext
+```
+* useMemo(()=> {}. [carrito]) el useMemo va a memorizar el resultado de la función y solo la recalcula cuando carrito cambia
+
 ## Helpers
 Dentro de la carpeta helper, tendré un archivo peticiones-http.js, con el motivo de llamar a esta función y automáticamente le voy a pasar la url y las opciones:
 ```sh

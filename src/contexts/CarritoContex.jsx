@@ -6,18 +6,18 @@ import { peticionesHttp } from "../helpers/peticiones-http";
 const CarritoContext = createContext()
 
 // ! Armado del provider
-const CarritoProvider = ({children}) => {
-    const urlCarrito= import.meta.env.VITE_BACKEND_CARRITO
+const CarritoProvider = ({ children }) => {
+    const urlCarrito = import.meta.env.VITE_BACKEND_CARRITO
 
     const [agregarAlCarrito, eliminarDelCarrito, limpiarCarrito, carrito] = useLocalStorage('carrito', [])
 
-    function elProductoEstaEnElCarrito(producto){
+    function elProductoEstaEnElCarrito(producto) {
         const nuevoArray = carrito.filter(prod => prod.id === producto.id)
         return nuevoArray.length
     }
 
-    function obtenerProductoDeCarrito(producto){
-        
+    function obtenerProductoDeCarrito(producto) {
+
         return carrito.find(prod => prod.id === producto.id)
     }
 
@@ -25,7 +25,7 @@ const CarritoProvider = ({children}) => {
         console.log('Ya estoy en el agregar contexto', producto);
 
         // Averiguo si esta op no esta en el carrito y hago en consecuencia
-        if(!elProductoEstaEnElCarrito(producto)){
+        if (!elProductoEstaEnElCarrito(producto)) {
             console.log('No está en el carrito');
             producto.cantidad = 1
             agregarAlCarrito(producto) // agregar el producto en el LocalStorage y modificar el estado
@@ -47,37 +47,43 @@ const CarritoProvider = ({children}) => {
     }
 
     const guardarCarritoBackendContext = async () => {
-        
-        try {
-           const options = {
-                method: 'POST',
-                headers: {'content-type': 'application/json'},
-                body: JSON.stringify(carrito)
-           }
-           const carritoGuardado = await peticionesHttp(urlCarrito, options) 
-           console.log(carritoGuardado);
 
-           limpiarCarrito()
+        try {
+            const options = {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(carrito)
+            }
+            const carritoGuardado = await peticionesHttp(urlCarrito, options)
+            console.log(carritoGuardado);
+
+            limpiarCarrito()
         } catch (error) {
-            console.error('[guardarCarritoBackendContext]',error)
+            console.error('[guardarCarritoBackendContext]', error)
         }
     }
 
     const calcularTotalCarritoContext = useMemo(() => {
         return carrito.reduce((total, producto) => {
-          const precio = Number(producto.precio) || 0
-          const cantidad = Number(producto.cantidad) || 0
-          return total + (precio * cantidad)
+            const precio = Number(producto.precio) || 0
+            const cantidad = Number(producto.cantidad) || 0
+            return total + (precio * cantidad)
         }, 0)
-      }, [carrito])
-    
+    }, [carrito])
+
+    const contarProductosCarritoContext = useMemo(() => {
+        return carrito.reduce((total, producto) => total + (producto.cantidad || 0), 0);
+    }, [carrito]);
+
+
     const data = {
         agregarProductoAlCarritoContext,
         eliminarProductoDelCarritoContext,
         limpiarCarritoContext,
         guardarCarritoBackendContext,
         carrito,
-        calcularTotalCarritoContext
+        calcularTotalCarritoContext,
+        contarProductosCarritoContext
     }
 
     return <CarritoContext.Provider value={data}>{children}</CarritoContext.Provider>
@@ -85,5 +91,5 @@ const CarritoProvider = ({children}) => {
 }
 
 //! Exportaciones
-export {CarritoProvider}
+export { CarritoProvider }
 export default CarritoContext
