@@ -14,7 +14,7 @@ const Carrito = () => {
     <>
       <div className="contenedor-compra">
         <h1>Mis compras</h1>
-        <p>Total Productos: {contarProductosCarritoContext}</p>
+        <p className="contenedor-compra__total-prod">Total Productos: {contarProductosCarritoContext}</p>
         <ListadoCarrito />
       </div>
 

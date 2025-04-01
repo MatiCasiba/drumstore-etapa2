@@ -50,7 +50,10 @@ const ListadoCarrito = () => {
                     }
                 </tbody>
             </table>
-            <h2 className="total-carrito">Total: US$ {calcularTotalCarritoContext.toFixed(2)}</h2>
+            <div className="contenedor-precio">
+                <h2 className="contenedor-precio__total-carrito">Total: US$ {calcularTotalCarritoContext.toFixed(2)}</h2>
+            </div>
+            
 
             {!carrito.length <= 0 && (
                 <div className="acciones-carrito">

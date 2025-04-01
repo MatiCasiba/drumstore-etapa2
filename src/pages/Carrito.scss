@@ -10,9 +10,28 @@
         margin-bottom: 30px;
     }
 
+    &__total-prod{
+        width: 180px;
+        background-color: $color-2;
+        color: $color-3;
+        padding: 10px;
+        text-align: center;
+        font-weight: 800;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        border-radius: 20px;
+        border: 2px solid $color-3;
+    }
+
     @media screen and (min-width: 768px) {
         h1{
             font-size: 1.6rem;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        &__total-prod{
+            font-size: 1.3rem;
         }
     }
 
