@@ -10,6 +10,8 @@ const TablaFila = ({producto}) => {
   const {eliminarProductoContex, setProductoAEditar} = useContext(ProductosContext)
   const navigate = useNavigate() // me devuelve una referencia de una función
 
+  const imagenXDefecto = '/logo/drum-icon.png'
+
   const handleEliminar = (id)=> {
     Swal.fire({
       title: "Estás seguro?",
@@ -51,7 +53,10 @@ const TablaFila = ({producto}) => {
         <tr className="fila">
             <td className="fila__nombre">{producto.nombre}</td>
             <td>
-                <img src={producto.foto} alt={producto.foto} />
+                <img src={producto.foto ? producto.foto : imagenXDefecto} 
+                    alt={producto.foto}
+                    onError={(e) => e.target.src = imagenXDefecto} 
+                />
             </td>
             <td className="fila__precio">{producto.precio}</td>
             <td>{producto.stock}</td>

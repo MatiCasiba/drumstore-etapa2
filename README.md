@@ -2041,7 +2041,37 @@ Eh ajustado tamaños tanto de imagen como de letras, también a algunas palabras
     }
 }
 ```
+* ### Image  aleatoria
+Si el usuario no ingresa nada en el campo imágen (del formulario de alta) o ingresa otra cosa, al momento de guardar el producto, se mostrará un icono de una bateria como imagen
+```sh
+...
 
+const TablaFila = ({producto}) => {
+
+  const imagenXDefecto = '/logo/drum-icon.png' # imagen que tengo guardado en una de mis carpetas dentro del proyecto
+
+  ...
+
+  return (
+    <>
+        <tr className="fila">
+            <td className="fila__nombre">{producto.nombre}</td>
+            <td>
+                <img src={producto.foto ? producto.foto : imagenXDefecto} 
+                    alt={producto.foto}
+                    
+                    onError={(e) => e.target.src = imagenXDefecto}
+                    # Si la imagen de producto.foto no se carga (por url inválida o vacía), esta se reemplaza con imagenXDefecto
+                />
+            </td>
+            ...
+        </tr>
+    </>
+  )
+}
+
+export default TablaFila
+```
 
 * ### Elimino productos de la tabla
     * En cada productos se encuentran acciones, una de ellas es eliminar, a ese botón de eliminar lo pondré a funcionar, se eliminará el producto de la tabla y a la vez en mi back:
