@@ -3,6 +3,7 @@ import Card from "../components/Card"
 import { useContext } from 'react'
 import ProductosContext from '../contexts/ProductosContext'
 import useTitulo from '../hooks/useTitulo'
+import Slider from '../components/Slider'
 
 const Inicio = () => {
 
@@ -13,7 +14,7 @@ const Inicio = () => {
     <>
 
       <main>
-        <div className="slider"></div>
+        <Slider />
         <section className="section-cards">
           <header className="section-cards__header">
             <h1>Nuestros productos:</h1>

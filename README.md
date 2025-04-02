@@ -2605,7 +2605,90 @@ Los productos que compre el usuario, serán agregados a una tabla en la parte de
 
 }
 ```
+### Slider
+En la página habrá imágenes que se pasan automáticamente, este es mi slider. Eh creado un componente Slider.jsx que luego lo voy a importar En Inicio.jsx:
+```sh
+import './Slider.scss'
 
+const Slider = () => {
+  return (
+    <div className="slider"></div>
+  )
+}
+
+export default Slider
+```
+
+* Lo llevo a Incio.jsx:
+```sh
+
+const Inicio = () => {
+  ...
+  return (
+    <>
+
+      <main>
+        <Slider /> # Lo llamo aquí !!!!
+        <section className="section-cards">
+          ...
+        </section> 
+
+        <section className="cards-container" id="container-productos">
+          ...
+          
+        </section>
+      </main>
+
+    </>
+  )
+}
+```
+* Slider.scss -> para conseguir que las imágenes avancen automáicamente, trabajé el slider de esta manera:
+```sh
+.slider {
+    background-image: url(../../images-slider/zildjian-chroma-pack-lifstyle.webp);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    width: 100%;
+    height: 200px;
+    animation: efecto linear infinite 15s;
+
+    @media screen and (min-width: 768px) {
+        &{
+            height: 300px;
+        }
+    }
+    
+    @media screen and (min-width: 992px){
+        &{
+            height: 430px;
+        }
+    }
+    @media screen and (min-width: 1200px) {
+        &{
+            height: 450px;
+            max-width: 1250px;
+            margin:  0 auto;
+        }
+    }
+}
+
+@keyframes efecto{
+    20%{
+        background-image: url(../../images-slider/auriculares-zildjian.webp);
+    }
+    40%{
+        background-image: url(../../images-slider/dark_cymbal_pack_1.webp);
+    }
+    60%{
+        background-image: url(../../images-slider/ALCHEM-E_Gold-EX_Front-Side.webp);
+    }
+    80%{
+        background-image: url(../../images-slider/l80_low_volume_cymbal_pack.webp);
+    }
+}
+```
 
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
