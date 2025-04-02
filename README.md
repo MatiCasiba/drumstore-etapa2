@@ -1291,104 +1291,104 @@ const Formulario = () => {
 
   return (
     <>
-        <div className="formulario">
-            <h2 className="formulario__titulos">{productoAEditar ? 'Editar' : 'Guardar producto'}</h2>
-            <form className="formulario__contendor-datos" onSubmit={handleSubmit}>
-                <div className="formulario__datos">
-                    <label className="formulario__labels" htmlFor="lbl-nombre">Nombre</label>
+        <div className="formulario-alta">
+            <h2 className="formulario-alta__subtitulo">{productoAEditar ? 'Editar' : 'Guardar producto'}</h2>
+            <form className="formulario-alta__contenedor-datos" onSubmit={handleSubmit}>
+                <div className="formulario-alta__datos-prod">
+                    <label className="formulario-alta__labels-prod" htmlFor="lbl-nombre">Nombre</label>
                     <input
                         type="text"
                         id="lbl-nombre"
                         name="nombre"
                         value={form.nombre}
                         onChange={handleChange}
-                        className="formulario__entrada-datos"
+                        className="formulario-alta__inputs-datos"
                     />
                 </div>
-                <div className="formulario__datos">
-                    <label className="formulario__labels" htmlFor="lbl-foto">Foto</label>
+                <div className="formulario-alta__datos-prod">
+                    <label className="formulario-alta__labels-prod" htmlFor="lbl-foto">Foto</label>
                     <input
                         type="text"
                         id="lbl-foto"
                         name="foto"
                         value={form.foto}
                         onChange={handleChange}
-                        className="formulario__entrada-datos"
+                        className="formulario-alta__inputs-datos"
                     />
                 </div>
-                <div className="formulario__datos">
-                    <label className="formulario__labels" htmlFor="lbl-precio">Precio</label>
+                <div className="formulario-alta__datos-prod">
+                    <label className="formulario-alta__labels-prod" htmlFor="lbl-precio">Precio</label>
                     <input
                         type="text"
                         id="lbl-precio"
                         name="precio"
                         value={form.precio}
                         onChange={handleChange}
-                        className="formulario__entrada-datos"
+                        className="formulario-alta__inputs-datos"
                     />
                 </div>
-                <div className="formulario__datos">
-                    <label className="formulario__labels" htmlFor="lbl-stock">Stock</label>
+                <div className="formulario-alta__datos-prod">
+                    <label className="formulario-alta__labels-prod" htmlFor="lbl-stock">Stock</label>
                     <input
                         type="text"
                         id="lbl-stock"
                         name="stock"
                         value={form.stock}
                         onChange={handleChange}
-                        className="formulario__entrada-datos"
+                        className="formulario-alta__inputs-datos"
                     />
                 </div>
             
-                <div className="formulario__datos">
-                    <label className="formulario__labels" htmlFor="lbl-marca">Marca</label>
+                <div className="formulario-alta__datos-prod">
+                    <label className="formulario-alta__labels-prod" htmlFor="lbl-marca">Marca</label>
                     <input
                         type="text"
                         id="lbl-marca"
                         name="marca"
                         value={form.marca}
                         onChange={handleChange}
-                        className="formulario__entrada-datos"
+                        className="formulario-alta__inputs-datos"
                     />
                 </div>
-                <div className="formulario__datos">
-                    <label className="formulario__labels" htmlFor="lbl-categoria">Categoría</label>
+                <div className="formulario-alta__datos-prod">
+                    <label className="formulario-alta__labels-prod" htmlFor="lbl-categoria">Categoría</label>
                     <input
                         type="text"
                         id="lbl-categoria"
                         name="categoria"
                         value={form.categoria}
                         onChange={handleChange}
-                        className="formulario__entrada-datos"
+                        className="formulario-alta__inputs-datos"
                     />
                 </div>
-                <div className="formulario__datos">
-                    <label className="formulario__labels" htmlFor="lbl-descripcion">Descripción</label>
+                <div className="formulario-alta__datos-prod">
+                    <label className="formulario-alta__labels-prod" htmlFor="lbl-descripcion">Descripción</label>
                     <input
                         type="text"
                         id="lbl-descripcion"
                         name="descripcion"
                         value={form.descripcion}
                         onChange={handleChange}
-                        className="formulario__entrada-datos"
+                        className="formulario-alta__inputs-datos"
                     />
                 </div>
-                <div className="formulario__checkbox">
-                    <label className="formulario__labels" htmlFor="lbl-envio">Envío</label>
+                <div className="formulario-alta__checkbox">
+                    <label className="formulario-alta__labels-prod" htmlFor="lbl-envio">Envío</label>
                     <input
                         type="checkbox"
                         id="lbl-envio"
                         name="envio"
                         checked={form.envio}
                         onChange={handleChange}
-                        className="formulario__check"
+                        className="formulario-alta__check"
                     />
                 </div>
-                <div className="formulario__botones">
-                    <button className="formulario__boton" type="submit">
+                <div className="formulario-alta__botones">
+                    <button className="formulario-alta__boton" type="submit">
                         {productoAEditar ? 'Editar' : 'Guardar'}
                     </button>
 
-                    <button className="formulario__boton" type="reset" onClick={handleReset}>Limpiar</button>
+                    <button className="formulario-alta__boton" type="reset" onClick={handleReset}>Limpiar</button>
                 </div>
             </form>
         </div>
@@ -1486,148 +1486,151 @@ Eh estilizado todo el código del Formulario.jsx, en este caso es pensado al pri
 # Formualiro.scss
 @import "../../index.scss"; 
 
-.formulario{
-    background-color: $color-4;
-    font-size: 1.2rem; # tamaño de fuente
-    height: 100%;
-    padding: 40px;
+.formulario-alta{
+    background-color: $color-4; # color de fondo
 
-    &__titulos{
-        font-weight: 900;
+    &__subtitulo{
         color: $color-3;
-        text-align: center;
-        text-shadow: 2px 3px 5px $color-2; # sombra del texto
-        letter-spacing: 5px;
-        border-radius: 20px;
-        padding: 5px;
-        margin: 15px 15px 45px 15px; # espacio en los margenes de arriba, derecha, debajo y izquierda (se encuentra en ese orden cada valor)
+        font-weight: 700; # grosor de letra
+        font-size: 1.4rem; # tamaño de letra
+        text-shadow: 0 0 2px $color-2; # sombra en la palabra
+        text-align: center; # centra el texto
+        padding: 10px; # relleno del texto
     }
 
-    &__labels{
-        margin-top: 20px;
-        letter-spacing: 2px;
-        font-weight: 700; # grosor del texto
-    }
-
-    &__datos {
+    &__contenedor-datos{
+        # los elementos dentro de este contenedor, estarán en vertical
         display: flex;
-        flex-direction: column; # los elementos se acomodan verticalmente
-        align-items: center;
-        gap: 10px; # 
+        flex-direction: column;
+
+        # centro el formulario
+        align-items: center; 
+        justify-content: center;
     }
-    &__entrada-datos {
-        width: 60%; # ancho del input
-        padding: 4px; # grosor del input
-        
-        # quito los bores de arriba, izquierda y derecha, dejo solamente el de abajo
-        border-left: none;
+
+    &__datos-prod{
+        # para que los labels y inputs se coloquen uno debajo del otro
+        display: flex;
+        flex-direction: column;
+        gap: 5px; # espacio entre los elementos
+    }
+    &__labels-prod{
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: $color-2; # color de letra
+        letter-spacing: 3px;
+        text-align: center;
+        margin-top: 20px; # espacio en el margen de arriba
+    }
+    &__inputs-datos{
+        font-size: 1.3rem; 
+        padding: 5px;
+
+        # saco los bordes de arriba, derecha y izquerda, dejando solamente el de abajo
         border-top: none;
-        border-right: none; 
+        border-right: none;
+        border-left: none;
+
+        border-radius: 10px; # redondeo las esquinas
         background-color: $color-4;
     }
 
     &__checkbox{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
+        margin-top: 40px;
     }
     &__check{
-        margin-top: 20px;
-        width: 20px;
-        height: 20px;
+        margin-left: 10px;
     }
 
     &__botones{
-        display: flex;
-        align-items: center; # centro los botones verticalmente
-        justify-content: center; # centro los botones horizontalmente
-        gap: 20px; # espacio entre los elementos
-    }
-    &__boton {
-        text-align: center; # centro el texto del botón
-        margin-top: 20px; # espacio en el margen de arriba
-        padding: 10px 20px;
-        border: none;
-        border-radius: 20px; # redondeo los bordes de las esquinas
-        background-color: $color-3; # color de fondo
-        cursor: pointer; # el cursor se transforma en una mano cuando el usuario se pare sobre el botón
-        color: $color-4; # color de la letra
-        font-weight: 900; # grosor de la letra
-        letter-spacing: 2px; # espacio entre las letras
+        display: flex; # hago que los botones se encuentren en una misma línea horizontal
+        gap: 50px;
+        margin-top: 20px;
+        margin-bottom: 50px;
     }
 
-}
+    &__boton{
+        text-align: center;
+        font-weight: 800;
+        font-size: 1rem;
+        letter-spacing: 1px; # espacio entre las letras
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: $color-3;
+        cursor: pointer; # cuando el usuario se pare sobre el boton, la felchita del mouse se transformará en una mano
+    }
 ```
 Habrán espacios, tamaños, hasta los botones de este formulario se encuentran estilizados, con un color de fondo naranja y el texto en blanco.
 
 * Breakpoints: como mencioné anteriormente, este formulario se adapta tanto a celulares como a computadoras (con pantallas de 1200px a 1400px), también lo pensé para casos de tablets, los celulares y tables no tendrán animaciones, mientras que en las computadoras si notarás que tiene animación, por ejemplo los botones. Esto debido a que no se notan las animaciones en dispositivos moviles:
 ```sh
-    @media screen and (min-width: 768px) { # pensado desde aquí hasta 1199 cómo dispositivos tablets
-
-        &{
-            font-size: 1.5rem;
+    @media screen and (min-width: 768px) {
+        &__subtitulo{
+            font-size: 1.7rem;
         }
 
-        &__labels{
-            font-weight: 600
-        }
-
-        &__entrada-datos {
-            width: 50%;
-        }
-
-    }
-    
-    @media screen and (min-width: 1200px) {
-
-        &{
-            width: 50%;
-            margin: 0 auto;
-            margin-bottom: 40px;
-        }
-
-        &__labels{
-            font-weight: 800;
-            font-size: 1.4rem;
-        }
-
-        &__contenedor-datos {
-            flex: 1;
-            max-width: 500px;
-        }
-
-        &__entrada-datos {
-            width: 55%;
+        &__labels-prod{
             font-size: 1.3rem;
         }
 
-        &__botones{
-            margin-top: 20px;
-            gap: 70px;
-        }   
+        &__inputs-datos{
+            font-size: 1.4rem;
+            padding: 8px;
+        }
+
         &__boton{
             font-size: 1.1rem;
         }
-        &__boton:hover{
-            box-shadow: 3px 5px 10px black;
-        }
-
     }
 
-    @media screen and (min-width: 1400px){
-
-        &{
-            max-width: 1000px;
-            width: 100%;
+    @media screen and (min-width: 992px) {
+        &__subtitulo{
+            font-size: 1.9rem;
         }
 
-        &__entrada-datos{
-            padding: 8px;
+        &__labels-prod{
+            font-size: 1.5rem;
+        }
+        &__inputs-prod{
+            font-size: 1.6rem;
+        }
+        
+        &__boton{
             font-size: 1.2rem;
-            width: 40%;
+            border: 2px solid $color-1;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        &__subtitulo{
+            font-size: 2rem;
         }
 
+        &__labels-prod{
+            font-size: 1.7rem;
+        }
+        &__inputs-prod{
+            font-size: 1.9rem;
+        }
+
+        &__boton{
+            font-size: 1.3rem;
+        }
+        &__boton:hover{
+            box-shadow: 0 0  10px 3px $color-1;
+        }
+    }
+
+    @media screen and (min-width: 1400px) {
+        &__labels-prod{
+            font-size: 1.8rem;
+        }
+        &__inputs-prod{
+            font-size: 2rem;
+        }
+        
     }
 ```
 
