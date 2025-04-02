@@ -2690,6 +2690,84 @@ const Inicio = () => {
 }
 ```
 
+### Spinner 
+Eh creado un componente Spinner.jsx, el motivo por el cual lo eh creado es para mostrar una animación de carga antes de mostrar la página completa. A este le eh simulado la carga con 1 segundo para que se pueda ver
+```sh
+# Spinner.jsx
+
+import './Spinner.scss'
+
+const Spinner = () => {
+  return (
+    <div className="spinner">
+      <div className="rect1"></div>
+      <div className="rect2"></div>
+      <div className="rect3"></div>
+      <div className="rect4"></div>
+      <div className="rect5"></div>
+    </div>
+  );
+};
+
+export default Spinner;
+```
+El spinner lo voy a colocar en Inicio.jsx con un ternario, para que primero se pueda ver la pantalla de carga y una vez obtenida toda la data se muestre toda la página:
+```sh
+import './Inicio.scss'
+import Card from "../components/Card"
+import { useContext, useEffect, useState } from 'react'
+import ProductosContext from '../contexts/ProductosContext'
+import useTitulo from '../hooks/useTitulo'
+import Slider from '../components/Slider'
+import Spinner from '../components/Spinner'
+
+const Inicio = () => {
+
+  const {productos} = useContext(ProductosContext)
+  useTitulo('Inicio')
+
+  const [cargando, setCargando] = useState(true) # creo un estado y su modificador
+
+  useEffect(() => {
+    if (productos && productos.length > 0) {
+        # el código va a verificar que productos no sea null o indefinido (por eso el productos &&), productos.length > 0 quiere decir que hay productos en la lista
+        # si productos tiene al menos un producto, se ejecuta el código dentro del if
+
+      setTimeout(() => setCargando(false), 1000); # Simula una carga de 1 segundo
+      # si hay productos, se va a usaar el setTimeout para esperar 1 segundo antes de cambiar cargando a falso
+    }
+  }, [productos]);
+
+  return (
+    <>
+      {cargando ? (
+        <Spinner />
+      ) : (
+        <main>
+          <Slider />
+          <section className="section-cards">
+            <header className="section-cards__header">
+              <h1>Nuestros productos:</h1>
+              <p>Mapex - DW - Zildjian - Evans</p>
+            </header>
+          </section> 
+
+          <section className="cards-container" id="container-productos">
+            {productos && productos.map((producto) => (
+              <Card producto={producto} key={producto.id} />
+            ))}
+          </section>
+        </main>
+      )}
+    </>
+  )
+}
+
+export default Inicio
+```
+* useEffect(()=> {}. [productos]) -> se ejecuta cada vez que cambia el estado de productos, cuando productos cambia, el código dentro de useEffect se va a ejecutar
+
+
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
 ```sh
