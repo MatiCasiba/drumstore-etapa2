@@ -188,6 +188,10 @@ main{
             width: 100%; 
             background-color: $color-1; 
             color: $color-3;
+            cursor: pointer;
+        }
+        &__boton:hover{
+            background-color: $color-2;
         }
     
         &:hover,
