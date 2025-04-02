@@ -1,6 +1,6 @@
 * Nombre: Matias Casiba
 * Link github repo: https://github.com/MatiCasiba/drumstore-etapa2
-* Link Netlify:
+* Link Netlify: https://drumstore-maticasiba.netlify.app/
 
 # Integrador etapa 2
 
@@ -2041,7 +2041,7 @@ Eh ajustado tamaños tanto de imagen como de letras, también a algunas palabras
     }
 }
 ```
-* ### Image  aleatoria
+* ### Image por defecto
 Si el usuario no ingresa nada en el campo imágen (del formulario de alta) o ingresa otra cosa, al momento de guardar el producto, se mostrará un icono de una bateria como imagen
 ```sh
 ...
@@ -2059,7 +2059,7 @@ const TablaFila = ({producto}) => {
             <td>
                 <img src={producto.foto ? producto.foto : imagenXDefecto} 
                     alt={producto.foto}
-                    
+
                     onError={(e) => e.target.src = imagenXDefecto}
                     # Si la imagen de producto.foto no se carga (por url inválida o vacía), esta se reemplaza con imagenXDefecto
                 />
