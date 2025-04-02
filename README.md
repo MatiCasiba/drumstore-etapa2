@@ -628,7 +628,7 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
 }
 ``` 
 
-* Navbar.scss:
+* ### Navbar.scss:
 ```sh
 @import "../index.scss";
 
@@ -720,7 +720,7 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     }
 }
 ```
-* SearchBar.scss
+* ### SearchBar.scss
 ```sh
 @import "../index.scss";
 
@@ -841,16 +841,20 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
         }
     }
 
-    &__form-submit{
+    &__form-submit {
         background-color: $color-4;
         margin-left: 2px;
         border-radius: 10px;
         font-size: 0.8rem;
         padding: 5px;
-
+        transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        cursor: pointer;
+    
         @media screen and (min-width: 1200px) {
-            &:hover{
+            &:hover {
                 background-color: $color-3;
+                transform: scale(1.1); // Hace que crezca un poco al pasar el mouse
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); // Agrega un efecto de sombra sutil
             }
         }
     }
@@ -858,6 +862,7 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     &__carrito-container{
         flex: 0 0 3rem;
         margin: auto;
+        position: relative;
 
         @media screen and (min-width: 992px){
             &{
@@ -867,6 +872,10 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
             }
         }
     }
+    &__cart-link{
+        position: relative;
+        display: inline-block;
+    }
 
     &__cart-logo{
         min-width: 20px;
@@ -875,10 +884,34 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
         max-height: 30px;
         object-fit: contain;
         flex-shrink: 0;
-        
+        transition: transform 0.3s ease-in-out;
+
+        &:hover{
+            transform: scale(1.2);
+        }
+
         @media screen and (min-width: 768px){
             max-height: 35px;
         }
+        
+    }
+
+    &__cart-count{
+        position: absolute;
+        top: -10px;
+        right: -15px;
+        background-color: $color-2;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
     }
 
     @media screen and (min-width: 1200px) {
@@ -889,7 +922,7 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     }
 }
 
-# MENU TOOGLE 
+/* MENU TOOGLE */
 
 .menu-toogle{
     display: block;
@@ -935,6 +968,134 @@ Todo lo que contiene header, estrá estilizado mediante las clases, todo los est
     }
 
 }
+
+```
+* SearchBar.scss:
+```sh
+import { Link } from 'react-router'
+import './SearchBar.scss'
+import { useContext } from 'react'
+import CarritoContext from '../contexts/CarritoContex'
+
+const SearchBar = () => {
+
+    const {contarProductosCarritoContext} = useContext(CarritoContext)
+
+    return (
+        <>
+            <div className="search-bar">
+                <div className="search-bar__logo-container">
+                    <img className="search-bar__logo-img" src="/logo/ds-logo-sf.png" alt="logo ds" />
+                </div>
+                {/* <button className="theme-toggle">⚫</button> */}
+                <form action="#" className="search-bar__form-container">
+                    <label htmlFor="busqueda" className="search-bar__form-label">
+                        <img className="search-bar__logo-search" src="/logo/logo-search.png" alt="logo del bucador" />
+                    </label>
+                    <input type="search" id="busqueda" className="search-bar__form-search" />
+                    <button type="submit" className="search-bar__form-submit">Buscar</button>
+                </form>
+
+                <div className="search-bar__carrito-container">
+                    <Link to="/carrito" className='search-bar__cart-link'>
+                    
+                        <img className="search-bar__cart-logo" src="/logo/cart-logo.png" alt="logo de carro" />
+                        {contarProductosCarritoContext > 0 && (
+                            <span className='search-bar__cart-count'>{contarProductosCarritoContext}</span>
+                        )}
+                    
+                    </Link>
+                </div>
+
+                <div className="menu-toogle">
+                    <label htmlFor="menu" className="menu-toogle__label">
+                        <span className="menu-toogle__top-bread"></span>
+                        <span className="menu-toogle__meat"></span>
+                        <span className="menu-toogle__bottom-bread"></span>
+                    </label>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default SearchBar
+```
+#### Muestro cantidad de productos en el logo del carro
+En el logo carrito ahora verás cada vez que agregues un producto, el número de la cantidad de producto que tendrás en el carro (aparte de que ya puedes ver el conteo de la cantidad de productos cuando entras a la página del carrito). Para poder mostrarlo importé el contexto de contarProductosCarritoContext:
+```sh
+const {contarProductosCarritoContext} = useContext(CarritoContext)
+```
+a este lo uso dentro del contenedor carrito-container:
+```sh
+<div className="search-bar__carrito-container">
+    <Link to="/carrito" className='search-bar__cart-link'>
+                    
+        <img className="search-bar__cart-logo" src="/logo/cart-logo.png" alt="logo de carro" />
+        {contarProductosCarritoContext > 0 && (
+            <span className='search-bar__cart-count'>{contarProductosCarritoContext}</span>
+        )}
+        # en el caso de que no hayya nada dentro del carro, no se mostrará ningun contador al lado del logo, y si hay, entonces si muestro el conteo
+                    
+    </Link>
+</div>
+```
+* Su estilo:
+```sh
+    &__carrito-container{
+        flex: 0 0 3rem;
+        margin: auto;
+        position: relative;
+
+        @media screen and (min-width: 992px){
+            &{
+                flex: 0 0 5rem;
+                margin: auto;
+                background: none;
+            }
+        }
+    }
+    &__cart-link{
+        position: relative;
+        display: inline-block;
+    }
+
+    &__cart-logo{
+        min-width: 20px;
+        min-height: 20px;
+        max-width: 30px; 
+        max-height: 30px;
+        object-fit: contain;
+        flex-shrink: 0;
+        transition: transform 0.3s ease-in-out;
+
+        &:hover{
+            transform: scale(1.2);
+        }
+
+        @media screen and (min-width: 768px){
+            max-height: 35px;
+        }
+        
+    }
+
+    &__cart-count{
+        position: absolute;
+        top: -10px;
+        right: -15px;
+        background-color: $color-2;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
 ```
 
 ### Footer.jsx

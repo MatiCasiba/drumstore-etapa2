@@ -126,7 +126,7 @@
         transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
         cursor: pointer;
     
-        @media screen and (min-width: 1200px) { //! nuevo
+        @media screen and (min-width: 1200px) {
             &:hover {
                 background-color: $color-3;
                 transform: scale(1.1); // Hace que crezca un poco al pasar el mouse
@@ -138,6 +138,7 @@
     &__carrito-container{
         flex: 0 0 3rem;
         margin: auto;
+        position: relative;
 
         @media screen and (min-width: 992px){
             &{
@@ -147,6 +148,10 @@
             }
         }
     }
+    &__cart-link{
+        position: relative;
+        display: inline-block;
+    }
 
     &__cart-logo{
         min-width: 20px;
@@ -155,10 +160,34 @@
         max-height: 30px;
         object-fit: contain;
         flex-shrink: 0;
-        
+        transition: transform 0.3s ease-in-out;
+
+        &:hover{
+            transform: scale(1.2);
+        }
+
         @media screen and (min-width: 768px){
             max-height: 35px;
         }
+        
+    }
+
+    &__cart-count{
+        position: absolute;
+        top: -10px;
+        right: -15px;
+        background-color: $color-2;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
     }
 
     @media screen and (min-width: 1200px) {
