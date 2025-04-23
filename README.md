@@ -2798,6 +2798,43 @@ export default Inicio
 * useEffect(()=> {}. [productos]) -> se ejecuta cada vez que cambia el estado de productos, cuando productos cambia, el código dentro de useEffect se va a ejecutar
 
 
+### DragDop.jsx
+Este Componente, lo voy a estar usando para cargar las imágenes que el usuario tenga y ya no las que estén de local (osea las que tenía cargadas dentro de mi proyecto).
+```sh
+import React from 'react'
+
+const DragDrop = () => {
+
+  const handleDrop = () => {
+    ...
+  }
+
+  const handleChange = () => {
+    ...
+  }
+
+  const srcImagen = ''
+
+  return (
+    <div className='drop-area' onDrop={handleDrop}>
+        <p>
+            Subir imagen al servidor con <b>File Dialog</b> o con
+            <b>drag and drop</b> dentro del area punteada.
+        </p>
+        <input type="file" id="lbl-foto" accept="image/*" onChange={handleChange} />
+        <label className="drop-area-button" htmlFor="lbl-foto">
+            File Dialog
+        </label>
+        <div className='drop-area-image'>
+            <img src={srcImagen} alt="" />
+        </div>
+    </div>
+  )
+}
+
+export default DragDrop
+```
+
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
 ```sh
