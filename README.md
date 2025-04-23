@@ -2834,6 +2834,50 @@ const DragDrop = () => {
 
 export default DragDrop
 ```
+* Para que se vea, lo coloqué en Formulario.jsx dentro del form:
+```sh
+<div className="formulario-alta__datos-prod">
+    ... Campo de nombre                    
+</div>
+
+<div><DragDrop /></div> # El componmente que servirá para subir la imagen
+                
+<div className="formulario-alta__datos-prod">
+    ... Antes en este contenedor se encontraba el campo de foto para colocar las imágenes en formato string (osea escribiendo la direccion dentro de la imagen)                   
+</div>
+```
+
+#### Estilizo el DragDrop
+Para estilizarlo eh agregado un archivo DragDrop.scss:
+```sh
+.drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    width: 300px;
+    margin: 25px 0;
+    padding: 20px;
+    & p {
+        margin-bottom: 30px;
+    }
+    &-button {
+        display: inline-block;
+        padding: 10px;
+        background: #ccc;
+        cursor: pointer;
+        border-radius: 5px;
+        border-radius: 1px solid #ccc;
+    }
+    & #lbl-foto {
+        display: none;
+    }
+    &-image img {
+        width: 150px;
+        margin-top: 10px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+}
+```
 
 ## menuItems.js
 eh creado un archivo para los items del menú que tengo en la página, este archivo js lo encontrarás en src/constants/ :
