@@ -1,4 +1,4 @@
-import React from 'react'
+import './DragDrop.scss';
 
 const DragDrop = () => {
 
@@ -16,7 +16,7 @@ const DragDrop = () => {
     <div className='drop-area' onDrop={handleDrop}>
         <p>
             Subir imagen al servidor con <b>File Dialog</b> o con
-            <b>drag and drop</b> dentro del area punteada.
+            <b> drag and drop</b> dentro del area punteada.
         </p>
         <input type="file" id="lbl-foto" accept="image/*" onChange={handleChange} />
         <label className="drop-area-button" htmlFor="lbl-foto">

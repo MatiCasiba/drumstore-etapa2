@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import ProductosContext from "../../contexts/ProductosContext"
 import './Formulario.scss'
+import DragDrop from "./DragDrop"
 
 const Formulario = () => {
 
@@ -70,6 +71,9 @@ const Formulario = () => {
                         className="formulario-alta__inputs-datos"
                     />
                 </div>
+
+                <div><DragDrop /></div>
+                
                 <div className="formulario-alta__datos-prod">
                     <label className="formulario-alta__labels-prod" htmlFor="lbl-foto">Foto</label>
                     <input
