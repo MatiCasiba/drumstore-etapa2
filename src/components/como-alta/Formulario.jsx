@@ -29,6 +29,11 @@ const Formulario = () => {
 
   const [form, setForm] = useState(formInicial)
 
+  //! Estados nuevos para la etapa 3 (subir la imagen)
+  /* Estados para gestionar el drag and drop */
+  const [foto, setFoto] = useState('')
+  const [srcImagenBack, setSrcImagenBack] = useState('')
+
   const handleSubmit = (e) => {
     e.preventDefault()
     
@@ -72,9 +77,15 @@ const Formulario = () => {
                     />
                 </div>
 
-                <div><DragDrop /></div>
-                
-                <div className="formulario-alta__datos-prod">
+                <div>
+                    <DragDrop 
+                        setFoto={setFoto} 
+                        srcImagenBack={srcImagenBack}
+                        setSrcImagenBack={setSrcImagenBack} 
+                    />
+                </div>
+
+                {/* <div className="formulario-alta__datos-prod">
                     <label className="formulario-alta__labels-prod" htmlFor="lbl-foto">Foto</label>
                     <input
                         type="text"
@@ -84,7 +95,8 @@ const Formulario = () => {
                         onChange={handleChange}
                         className="formulario-alta__inputs-datos"
                     />
-                </div>
+                </div> */}
+
                 <div className="formulario-alta__datos-prod">
                     <label className="formulario-alta__labels-prod" htmlFor="lbl-precio">Precio</label>
                     <input
