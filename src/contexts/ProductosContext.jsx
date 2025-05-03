@@ -11,8 +11,8 @@ const ProductosProvider = ({children}) => {
     const [productos, setProductos] = useState(null)
     const [productoAEditar, setProductoAEditar] = useState(null)
 
-    //const urlMockapi = 'https://67d47c1dd2c7857431edce6d.mockapi.io/apis/v1/producto/'
-    const urlMockapi = import.meta.env.VITE_BACKEND_PRODUCTOS
+    const urlMockapi = 'https://67d47c1dd2c7857431edce6d.mockapi.io/apis/v1/producto/'
+    //const urlMockapi = import.meta.env.VITE_BACKEND_PRODUCTOS
 
     
     useEffect(() => {
