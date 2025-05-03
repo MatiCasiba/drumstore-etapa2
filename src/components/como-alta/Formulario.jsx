@@ -31,16 +31,20 @@ const Formulario = () => {
 
   //! Estados nuevos para la etapa 3 (subir la imagen)
   /* Estados para gestionar el drag and drop */
-  const [foto, setFoto] = useState('')
-  const [srcImagenBack, setSrcImagenBack] = useState('')
+  const placeHolderImage = 'http://localhost:8080/uploads/elementor-placeholder-image-1.webp'
+  const [foto, setFoto] = useState(placeHolderImage)
+  const [srcImagenBack, setSrcImagenBack] = useState(placeHolderImage)
 
   const handleSubmit = (e) => {
     e.preventDefault()
     
     if(form.id === null){
-        crearProductoContext(form)
+        const productoNuevoConImagen = {...form, ...foto}
+        console.log(productoNuevoConImagen);
+        crearProductoContext(productoNuevoConImagen)
     } else {
-        actualizarProductoContext(form)
+        const productoNuevoConImagen = {...form, ...foto}
+        actualizarProductoContext(productoNuevoConImagen)
     }
 
     handleReset()
@@ -58,6 +62,8 @@ const Formulario = () => {
   const handleReset = () => {
     setForm(formInicial)
     setProductoAEditar(null)
+    setFoto(placeHolderImage)
+    setSrcImagenBack(placeHolderImage)
   }
 
   return (

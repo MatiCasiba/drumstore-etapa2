@@ -8,12 +8,12 @@ const DragDrop = ({ setFoto, srcImagenBack, setSrcImagenBack }) => {
   const arrayEventosDragDrop = ['dragenter', 'dragleave', 'dragover', 'drop']
 
   arrayEventosDragDrop.forEach(eventName => {
-    console.log(eventName)
+    //console.log(eventName)
     document.body.addEventListener(eventName, e => e.preventDefault())
   })
 
   const handleDrop = (e) => {
-    console.log(e);
+    //console.log(e);
     const files = e.dataTransfer.files
     handleFiles(files)
   }
@@ -47,7 +47,7 @@ const DragDrop = ({ setFoto, srcImagenBack, setSrcImagenBack }) => {
       const imagenUp = await peticionesHttp(url, options)
 
       console.log(imagenUp)
-      //setFoto(imagenUp)
+      setFoto(imagenUp) // {foto: ''}
 
     } catch (error) {
       console.error('[uploadFile]:', error)
