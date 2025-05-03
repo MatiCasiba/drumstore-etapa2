@@ -6,17 +6,17 @@ import './ProductoDetalle.scss'
 const ProductoDetalle = () => {
 
   const {id} = useParams()
-  const placeHolderImage = 'http://localhost:8080/uploads/elementor-placeholder-image-1.webp'
-  const [productoDetalle, setProductoDetalle] = useState(placeHolderImage)
-  //const urlMockapi = 'https://67d47c1dd2c7857431edce6d.mockapi.io/apis/v1/producto/'
-  const url = import.meta.env.VITE_BACKEND_PRODUCTOS
+  
+  const [productoDetalle, setProductoDetalle] = useState(null)
+  const urlMockapi = 'https://67d47c1dd2c7857431edce6d.mockapi.io/apis/v1/producto/'
+  //const urlMockapi= import.meta.env.VITE_BACKEND_PRODUCTOS
 
   useEffect(() => {
     getOne(id)
   }, [])
 
   const getOne = async (id) => {
-    const urlGetOne = url + id
+    const urlGetOne = urlMockapi+ id
     try {
         const res = await fetch(urlGetOne)
         if(!res.ok){
